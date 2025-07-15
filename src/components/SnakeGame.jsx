@@ -467,7 +467,8 @@ const SnakeGame = ({ onClose }) => {
             </div>
           </div>
           {isMobile && (
-            <div className="text-xs text-terminal-accent mt-2">Tap anywhere to start</div>
+            <div className="text-xs text-terminal-accent mt-2">Tap anywhere
+             to start</div>
           )}
         </div>
       ) : showThankYou ? (
@@ -478,7 +479,7 @@ const SnakeGame = ({ onClose }) => {
         >
           Thank you for playing!
           {isMobile && (
-            <div className="text-xs text-terminal-accent mt-2">Tap anywhere to restart</div>
+            <div className="text-xs text-terminal-accent mt-2">Tap here to restart</div>
           )}
         </div>
       ) : showInstructions ? (
@@ -555,7 +556,7 @@ const SnakeGame = ({ onClose }) => {
               )}
               {isMobile && (
                 <>
-                  <div className="text-xs text-terminal-accent text-center mt-2">Tap anywhere to restart</div>
+                  <div className="text-xs text-terminal-accent text-center mt-2">Tap here to restart</div>
                   <div className="text-xs text-terminal-accent text-center mt-1">Two-finger tap anywhere to exit</div>
                 </>
               )}
