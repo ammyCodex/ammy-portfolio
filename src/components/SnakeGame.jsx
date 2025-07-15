@@ -303,19 +303,31 @@ const SnakeGame = ({ onClose }) => {
     }
   };
 
-  // Double-tap to restart logic for game over
+  // Improved single/double tap logic for game over
   const lastTapRef = useRef(0);
+  const singleTapTimeout = useRef(null);
   const handleGameOverTouch = (e) => {
     if (!isMobile || !gameOver) return;
     const now = Date.now();
-    if (now - lastTapRef.current < 400) { // 400ms threshold for double-tap
-      setShowInstructions(false);
-      setGameOver(false);
-      setScore(0);
-      setSnake(INITIAL_SNAKE);
-      setDirection(INITIAL_DIRECTION);
-      setFood(generateFood());
-      setIsPaused(false);
+    if (now - lastTapRef.current < 400) { // Double tap
+      if (singleTapTimeout.current) {
+        clearTimeout(singleTapTimeout.current);
+        singleTapTimeout.current = null;
+      }
+      setShowThankYou(true);
+      setTimeout(() => onClose(), 900);
+    } else {
+      // Wait to see if a second tap comes in
+      singleTapTimeout.current = setTimeout(() => {
+        setShowInstructions(false);
+        setGameOver(false);
+        setScore(0);
+        setSnake(INITIAL_SNAKE);
+        setDirection(INITIAL_DIRECTION);
+        setFood(generateFood());
+        setIsPaused(false);
+        singleTapTimeout.current = null;
+      }, 420); // Slightly above double-tap threshold
     }
     lastTapRef.current = now;
   };
@@ -482,6 +494,7 @@ const SnakeGame = ({ onClose }) => {
             <div
               className="snake-game-over mb-4 text-center"
               onTouchStart={handleGameOverTouch}
+              onClick={handleGameOverTouch}
             >
               <div className={`text-error-text text-lg font-bold mb-2 ${flashGameOver ? 'animate-pulse' : ''}`}
                 style={{ animation: flashGameOver ? 'flash 0.4s linear' : undefined }}>
@@ -490,11 +503,16 @@ const SnakeGame = ({ onClose }) => {
               <div className="text-terminal-text text-sm mb-2">
                 Final Score: {score}
               </div>
-              <div className="text-terminal-accent text-sm font-bold">
-                Press Enter to play again, ESC to exit
-              </div>
+              {!isMobile && (
+                <div className="text-terminal-accent text-sm font-bold">
+                  Press Enter to play again, ESC to exit
+                </div>
+              )}
               {isMobile && (
-                <div className="text-xs text-terminal-accent text-center mt-2">Double-tap anywhere to restart</div>
+                <>
+                  <div className="text-xs text-terminal-accent text-center mt-2">Tap anywhere to restart</div>
+                  <div className="text-xs text-terminal-accent text-center mt-1">Double-tap anywhere to exit</div>
+                </>
               )}
             </div>
           )}

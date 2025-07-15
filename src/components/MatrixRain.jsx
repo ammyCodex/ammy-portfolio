@@ -113,10 +113,12 @@ const MatrixRain = ({ onClose }) => {
             <span className="spinner-char">⠏</span>
           </div>
           <div className="mb-2">💻 MATRIX RAIN - INITIALIZING</div>
-          <div className="text-red-300 text-sm">
-            Press <b>Enter</b> to start simulation<br/>
-            Press <b>ESC</b> to exit
-          </div>
+          {!isMobile && (
+            <div className="text-red-300 text-sm">
+              Press <b>Enter</b> to start simulation<br/>
+              Press <b>ESC</b> to exit
+            </div>
+          )}
           {isMobile && (
             <div className="text-xs text-red-300 mt-2">Tap anywhere to start</div>
           )}
@@ -135,9 +137,11 @@ const MatrixRain = ({ onClose }) => {
         <div className="text-red-400 text-lg font-bold mb-2">
           💻 MATRIX RAIN - SIMULATION ACTIVE
         </div>
-        <div className="text-red-300 text-sm">
-          Press ESC to exit matrix mode
-        </div>
+        {!isMobile && (
+          <div className="text-red-300 text-sm">
+            Press ESC to exit matrix mode
+          </div>
+        )}
         {/* Show mobile exit gesture message during simulation */}
         {isMobile && (
           <div className="text-xs text-red-300 mt-2 text-center">Long-press anywhere to exit the simulation</div>
