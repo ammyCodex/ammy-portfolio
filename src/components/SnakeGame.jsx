@@ -332,11 +332,15 @@ const SnakeGame = ({ onClose }) => {
     lastTapRef.current = now;
   };
 
-  // Improved long-press and tap gesture logic for game over
+  // Robust two-finger tap and long-press detection for exit on game over
+  const twoFingerTapRef = useRef(false);
   const longPressTimeoutGameOver = useRef(null);
   const longPressFired = useRef(false);
   const handleGameOverTouchStart = (e) => {
     if (!isMobile || !gameOver) return;
+    // Two-finger tap detection
+    twoFingerTapRef.current = e.touches && e.touches.length === 2;
+    // Long-press detection
     longPressFired.current = false;
     longPressTimeoutGameOver.current = setTimeout(() => {
       longPressFired.current = true;
@@ -350,8 +354,11 @@ const SnakeGame = ({ onClose }) => {
       clearTimeout(longPressTimeoutGameOver.current);
       longPressTimeoutGameOver.current = null;
     }
-    // If long-press didn't fire, treat as tap (restart)
-    if (!longPressFired.current) {
+    if (twoFingerTapRef.current) {
+      setShowThankYou(true);
+      setTimeout(() => onClose(), 900);
+    } else if (!longPressFired.current) {
+      // Single tap: restart
       setShowInstructions(false);
       setGameOver(false);
       setScore(0);
@@ -360,6 +367,7 @@ const SnakeGame = ({ onClose }) => {
       setFood(generateFood());
       setIsPaused(false);
     }
+    twoFingerTapRef.current = false;
   };
   const handleGameOverTouchMove = (e) => {
     if (!isMobile || !gameOver) return;
@@ -530,8 +538,8 @@ const SnakeGame = ({ onClose }) => {
           {gameOver && (
             <div
               className="snake-game-over mb-4 text-center"
+              onTouchStart={handleGameOverTouchStart}
               onTouchEnd={handleGameOverTouchEnd}
-              onClick={handleGameOverClick}
             >
               <div className={`text-error-text text-lg font-bold mb-2 ${flashGameOver ? 'animate-pulse' : ''}`}
                 style={{ animation: flashGameOver ? 'flash 0.4s linear' : undefined }}>
