@@ -55,6 +55,9 @@ export default function Preloader() {
   const cardRef = useRef(null)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
   const [fadeIn, setFadeIn] = useState(false)
+  const [tiltSupported, setTiltSupported] = useState(true)
+  const [tiltPermissionAsked, setTiltPermissionAsked] = useState(false)
+  const [tiltPermissionDenied, setTiltPermissionDenied] = useState(false)
 
   // Responsive detection
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 600;
@@ -87,19 +90,70 @@ export default function Preloader() {
 
   // Tilt effect: mouse for desktop, device orientation for mobile
   useEffect(() => {
-    if (isMobile && window.DeviceOrientationEvent) {
-      const handleOrientation = (e) => {
-        // gamma: left/right, beta: up/down
-        const x = (e.gamma || 0) / 45 // -45 to 45
-        const y = (e.beta || 0 - 45) / 45 // 0 to 90, center at 45
-        setTilt({
-          x: x * 12, // max 12deg left/right
-          y: -y * 12 // max 12deg up/down
-        })
+    let orientationListener = null;
+    let permissionAsked = false;
+    let permissionDenied = false;
+    let lastX = 0, lastY = 0;
+    let rafId = null;
+
+    function smoothSetTilt(newX, newY) {
+      // Clamp and smooth
+      const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+      lastX += (newX - lastX) * 0.2;
+      lastY += (newY - lastY) * 0.2;
+      setTilt({ x: clamp(lastX, -12, 12), y: clamp(lastY, -12, 12) });
+    }
+
+    if (isMobile && typeof window !== 'undefined') {
+      setTiltSupported(true);
+      setTiltPermissionDenied(false);
+      // iOS 13+ requires permission
+      if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        if (!tiltPermissionAsked) {
+          setTiltPermissionAsked(true);
+          DeviceOrientationEvent.requestPermission().then(result => {
+            if (result === 'granted') {
+              permissionAsked = true;
+              orientationListener = (e) => {
+                if (e.gamma == null || e.beta == null) return;
+                // gamma: left/right, beta: up/down
+                const x = (e.gamma || 0) / 45; // -45 to 45
+                const y = ((e.beta || 0) - 45) / 45; // 0 to 90, center at 45
+                smoothSetTilt(x * 12, -y * 12);
+              };
+              window.addEventListener('deviceorientation', orientationListener, true);
+            } else {
+              setTiltPermissionDenied(true);
+              setTiltSupported(false);
+              setTilt({ x: 0, y: 0 });
+            }
+          }).catch(() => {
+            setTiltPermissionDenied(true);
+            setTiltSupported(false);
+            setTilt({ x: 0, y: 0 });
+          });
+        }
+      } else if (typeof window.DeviceOrientationEvent !== 'undefined') {
+        // Android and some browsers
+        orientationListener = (e) => {
+          if (e.gamma == null || e.beta == null) return;
+          const x = (e.gamma || 0) / 45;
+          const y = ((e.beta || 0) - 45) / 45;
+          smoothSetTilt(x * 12, -y * 12);
+        };
+        window.addEventListener('deviceorientation', orientationListener, true);
+      } else {
+        setTiltSupported(false);
+        setTilt({ x: 0, y: 0 });
       }
-      window.addEventListener('deviceorientation', handleOrientation, true)
-      return () => window.removeEventListener('deviceorientation', handleOrientation, true)
+      // Fallback: reset tilt if not supported
+      if (!tiltSupported) setTilt({ x: 0, y: 0 });
+      return () => {
+        if (orientationListener) window.removeEventListener('deviceorientation', orientationListener, true);
+        if (rafId) cancelAnimationFrame(rafId);
+      };
     } else if (!isMobile) {
+      // Desktop: mouse tilt
       const handleMove = (e) => {
         const card = cardRef.current
         if (!card) return
@@ -124,7 +178,7 @@ export default function Preloader() {
         }
       }
     }
-  }, [isMobile])
+  }, [isMobile, tiltPermissionAsked])
 
   return (
     <div style={{
@@ -231,6 +285,19 @@ export default function Preloader() {
             <div className="terminal-cursor" style={{ display: 'inline-block', width: isMobile ? 8 : 10, height: isMobile ? 14 : 20, background: '#880808', marginLeft: 6, animation: 'blink 1s infinite' }}></div>
           )}
         </div>
+        {/* Tilt not supported or permission denied message */}
+        {isMobile && !tiltSupported && (
+          <div style={{ color: '#880808', fontSize: 12, marginTop: 10, textAlign: 'center', opacity: 0.8 }}>
+            Tilt effect not available on your device/browser.<br />
+            (Try updating your browser or enabling motion permissions.)
+          </div>
+        )}
+        {isMobile && tiltPermissionDenied && (
+          <div style={{ color: '#880808', fontSize: 12, marginTop: 10, textAlign: 'center', opacity: 0.8 }}>
+            Motion permission denied. Tilt effect disabled.<br />
+            (You can enable it in your device settings.)
+          </div>
+        )}
       </div>
       <style>{`
         @keyframes preloader-fadein {
