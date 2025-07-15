@@ -598,3 +598,35 @@
     height: calc(100vh - 60px) !important;
   }
 }
+
+.terminal-btn {
+  background: #181818;
+  color: #28CA42;
+  font-family: 'JetBrains Mono', monospace;
+  border: 1.5px solid #333;
+  border-radius: 6px;
+  padding: 10px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 2px 0 #111, 0 2px 8px rgba(0,0,0,0.15);
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  outline: none;
+  cursor: pointer;
+  margin: 0 6px;
+  text-shadow: 0 1px 0 #000;
+}
+.terminal-btn.red {
+  color: #ff2222;
+  border-color: #880808;
+}
+.terminal-btn.green {
+  color: #28CA42;
+  border-color: #28CA42;
+}
+.terminal-btn:active {
+  background: #111;
+  box-shadow: 0 1px 0 #000;
+}
+.terminal-btn:focus {
+  border-color: #FFF9E5;
+}

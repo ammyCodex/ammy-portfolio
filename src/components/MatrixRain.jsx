@@ -106,8 +106,8 @@ const MatrixRain = ({ onClose }) => {
           {isMobile && (
             <>
               <div style={{ marginTop: 24, display: 'flex', justifyContent: 'center', gap: 16 }}>
-                <button className="matrix-btn" style={{ padding: '10px 24px', background: '#28CA42', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 16 }} onClick={e => { e.stopPropagation(); setShowLoader(false); }}>Press Enter to Start</button>
-                <button className="matrix-btn" style={{ padding: '10px 24px', background: '#880808', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 16 }} onClick={e => { e.stopPropagation(); onClose(); }}>Exit</button>
+                <button className="terminal-btn green" onClick={e => { e.stopPropagation(); setShowLoader(false); }}>Press Enter to Start</button>
+                <button className="terminal-btn red" onClick={e => { e.stopPropagation(); onClose(); }}>Exit</button>
               </div>
               <div className="text-xs text-red-300 mt-2">Tap anywhere to start</div>
             </>
@@ -128,7 +128,7 @@ const MatrixRain = ({ onClose }) => {
         </div>
         {isMobile && (
           <div style={{ marginTop: 12, display: 'flex', justifyContent: 'center' }}>
-            <button className="matrix-btn" style={{ padding: '8px 20px', background: '#880808', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 15 }} onClick={onClose}>Exit</button>
+            <button className="terminal-btn red" onClick={onClose}>Exit</button>
           </div>
         )}
       </div>
