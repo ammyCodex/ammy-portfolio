@@ -705,7 +705,7 @@ const commandRegistry = {
       "██████████ 100%",
       "Resume downloaded successfully!"
     ],
-    downloadUrl: '/public/ammy-resume.pdf',
+    downloadUrl: '/ammy-resume.pdf',
     downloadName: 'Amisha_Sharma_Resume.pdf',
     tabRecommend: true
   }),

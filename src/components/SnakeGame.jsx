@@ -332,14 +332,17 @@ const SnakeGame = ({ onClose }) => {
     lastTapRef.current = now;
   };
 
-  // Long-press to exit, single tap to restart on game over
+  // Improved long-press and tap gesture logic for game over
   const longPressTimeoutGameOver = useRef(null);
+  const longPressFired = useRef(false);
   const handleGameOverTouchStart = (e) => {
     if (!isMobile || !gameOver) return;
+    longPressFired.current = false;
     longPressTimeoutGameOver.current = setTimeout(() => {
+      longPressFired.current = true;
       setShowThankYou(true);
       setTimeout(() => onClose(), 900);
-    }, 1000); // 1 second long-press to exit
+    }, 600); // 600ms long-press to exit
   };
   const handleGameOverTouchEnd = (e) => {
     if (!isMobile || !gameOver) return;
@@ -347,17 +350,23 @@ const SnakeGame = ({ onClose }) => {
       clearTimeout(longPressTimeoutGameOver.current);
       longPressTimeoutGameOver.current = null;
     }
+    // If long-press didn't fire, treat as tap (restart)
+    if (!longPressFired.current) {
+      setShowInstructions(false);
+      setGameOver(false);
+      setScore(0);
+      setSnake(INITIAL_SNAKE);
+      setDirection(INITIAL_DIRECTION);
+      setFood(generateFood());
+      setIsPaused(false);
+    }
   };
-  const handleGameOverClick = (e) => {
+  const handleGameOverTouchMove = (e) => {
     if (!isMobile || !gameOver) return;
-    // Single tap: restart
-    setShowInstructions(false);
-    setGameOver(false);
-    setScore(0);
-    setSnake(INITIAL_SNAKE);
-    setDirection(INITIAL_DIRECTION);
-    setFood(generateFood());
-    setIsPaused(false);
+    if (longPressTimeoutGameOver.current) {
+      clearTimeout(longPressTimeoutGameOver.current);
+      longPressTimeoutGameOver.current = null;
+    }
   };
 
   // Game loop
@@ -524,7 +533,7 @@ const SnakeGame = ({ onClose }) => {
               onTouchStart={handleGameOverTouchStart}
               onTouchEnd={handleGameOverTouchEnd}
               onTouchCancel={handleGameOverTouchEnd}
-              onClick={handleGameOverClick}
+              onTouchMove={handleGameOverTouchMove}
             >
               <div className={`text-error-text text-lg font-bold mb-2 ${flashGameOver ? 'animate-pulse' : ''}`}
                 style={{ animation: flashGameOver ? 'flash 0.4s linear' : undefined }}>
