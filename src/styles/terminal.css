@@ -350,6 +350,7 @@
     height: 500px;
     min-height: 500px;
     max-height: 500px;
+    margin: 0 !important;
   }
   .terminal-body {
     overflow-x: auto;
@@ -363,6 +364,11 @@
   }
   .terminal-input-area {
     padding: 15px;
+  }
+}
+@media (max-width: 600px) {
+  .terminal-container-long {
+    margin: 0 !important;
   }
 }
 
