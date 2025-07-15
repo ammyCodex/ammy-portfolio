@@ -191,7 +191,7 @@ export default function Preloader() {
               }}
             >
               {displayedLines[i] ? (
-                line.startsWith('[ OK ]') ? <span style={{ color: '#28CA42' }}>{displayedLines[i]}</span> : displayedLines[i]
+                line.startsWith('[ OK ]') ? <span style={{ color: '#880808' }}>{displayedLines[i]}</span> : displayedLines[i]
               ) : ''}
             </div>
           ))}

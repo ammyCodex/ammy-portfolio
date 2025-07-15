@@ -270,13 +270,13 @@ const fileContents = {
 const commandRegistry = {
   welcome: () => ({
     output: [
-      "Welcome to <span class='text-red-400'>Amisha's Portfolio Terminal!</span> 🚀",
+      "Welcome to <span style='color: #880808;'>Amisha's Portfolio Terminal!</span> 🚀",
       "",
       "Navigate my skills, projects, experience, and more.",
-      "Play <span class='text-red-400'>games</span>, get jokes, <span class='text-red-400'>AI advice</span>, or download my resume.",
-      "Use <span class='text-red-400'>'ls'</span> to list directories or <span class='text-red-400'>'cd &lt;dir&gt;'</span> to navigate.",
+      "Play <span style='color: #880808;'>games</span>, get jokes, <span style='color: #880808;'>AI advice</span>, or download my resume.",
+      "Use <span style='color: #880808;'>'ls'</span> to list directories or <span style='color: #880808;'>'cd &lt;dir&gt;'</span> to navigate.",
       "",
-      "Type <span class='text-red-400'>'help'</span> for all commands.",
+      "Type <span style='color: #880808;'>'help'</span> for all commands.",
       ""
     ]
   }),
@@ -412,7 +412,7 @@ const commandRegistry = {
     output: await getRandomJoke()
   }),
 
-  neofetch: () => ({
+  etch: () => ({
     output: [
       "                   -`                    amisha@portfolio",
       "                  .o+`                   -----------------",
