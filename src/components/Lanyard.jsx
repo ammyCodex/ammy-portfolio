@@ -72,6 +72,45 @@ const Lanyard = () => {
             fill="none"
             strokeLinecap="round"
           />
+          {/* Group the red tag and Infosys text for unified animation */}
+          <g transform={`rotate(${springAngle.get()} ${centerStrapX} ${bottomY - 18})`}>
+            <rect
+              x={centerStrapX - 48}
+              y={bottomY - 32}
+              width={96}
+              height={28}
+              rx={8}
+              fill="#880808"
+              stroke="#880808"
+              strokeWidth={2}
+              style={{ filter: 'drop-shadow(0 2px 6px #0006)' }}
+            />
+            <text
+              x={centerStrapX}
+              y={bottomY - 18}
+              textAnchor="middle"
+              alignmentBaseline="middle"
+              fontSize="15"
+              fontWeight="bold"
+              fill="#fff"
+              fontFamily="Segoe UI, Arial, Helvetica, sans-serif"
+              letterSpacing="2px"
+              className="lanyard-infosys-text"
+              style={{
+                textTransform: 'uppercase',
+                filter: 'drop-shadow(0 1px 2px #2228)',
+                userSelect: 'none',
+              }}
+            >
+              Infosys
+            </text>
+          </g>
+          {/* Mobile compatibility: scale tag and font on small screens */}
+          <style>{`
+            @media (max-width: 500px) {
+              .lanyard-tag { width: 72px !important; height: 22px !important; font-size: 12px !important; }
+            }
+          `}</style>
         </svg>
         <div className="-mt-2 w-full flex justify-center">
           <IDCard onLinkClick={handleLinkClick} />
