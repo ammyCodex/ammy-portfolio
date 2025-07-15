@@ -341,9 +341,6 @@ const SnakeGame = ({ onClose }) => {
     <div
       className="snake-game"
       tabIndex={0}
-      onTouchStart={isMobile && isStartableScreen ? () => handleTouchStart('start') : undefined}
-      onClick={isMobile && isStartableScreen ? () => handleTouchStart('start') : undefined}
-      style={isMobile && isStartableScreen ? { touchAction: 'manipulation' } : {}}
     >
       {showLoader ? (
         <div className="snake-loader text-terminal-accent text-lg font-bold text-center p-8">
@@ -362,12 +359,22 @@ const SnakeGame = ({ onClose }) => {
               <span className="spinner-char">⠏</span>
             </div>
           </div>
-          {isMobile && <div className="text-xs text-terminal-accent mt-2">Tap anywhere to start</div>}
+          {isMobile && (
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginTop: 24 }}>
+              <button className="snake-btn" style={{ padding: '12px 32px', background: '#28CA42', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 18 }} onClick={() => handleTouchStart('start')}>Enter</button>
+              <button className="snake-btn" style={{ padding: '12px 32px', background: '#880808', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 18 }} onClick={() => handleTouchStart('exit')}>ESC</button>
+            </div>
+          )}
         </div>
       ) : showThankYou ? (
         <div className="snake-thankyou text-terminal-accent text-lg font-bold text-center p-8 animate-pulse">
           Thank you for playing!
-          {isMobile && <div className="text-xs text-terminal-accent mt-2">Tap anywhere to start</div>}
+          {isMobile && (
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginTop: 24 }}>
+              <button className="snake-btn" style={{ padding: '12px 32px', background: '#28CA42', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 18 }} onClick={() => handleTouchStart('start')}>Enter</button>
+              <button className="snake-btn" style={{ padding: '12px 32px', background: '#880808', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 18 }} onClick={() => handleTouchStart('exit')}>ESC</button>
+            </div>
+          )}
         </div>
       ) : showInstructions ? (
         <div className="snake-instructions text-terminal-text text-sm text-center p-4">
@@ -379,7 +386,12 @@ const SnakeGame = ({ onClose }) => {
           <div className="mb-1">• Press Space to pause/resume</div>
           <div className="mb-3">• Press ESC to exit the game</div>
           <div className="text-terminal-accent text-xs">Press Enter to start</div>
-          {isMobile && <div className="text-xs text-terminal-accent mt-2">Tap anywhere to start</div>}
+          {isMobile && (
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginTop: 24 }}>
+              <button className="snake-btn" style={{ padding: '12px 32px', background: '#28CA42', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 18 }} onClick={() => handleTouchStart('start')}>Enter</button>
+              <button className="snake-btn" style={{ padding: '12px 32px', background: '#880808', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 18 }} onClick={() => handleTouchStart('exit')}>ESC</button>
+            </div>
+          )}
         </div>
       ) : (
         <>
