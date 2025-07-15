@@ -102,6 +102,9 @@ const Lanyard = () => {
                 const textX = Math.pow(1 - t, 2) * centerStrapX + 2 * t * (1 - t) * controlX + Math.pow(t, 2) * centerStrapX;
                 const textY = t * bottomY - 20;
                 const angle = Math.atan2(textY - (t + 0.01) * bottomY, textX - (Math.pow(1 - (t + 0.01), 2) * centerStrapX + 2 * (t + 0.01) * (1 - (t + 0.01)) * controlX + Math.pow(t + 0.01, 2) * centerStrapX)) * (180 / Math.PI);
+                // Responsive font size for mobile friendliness
+                const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+                const fontSize = isMobile ? 14 : 22;
                 return (
                   <text
                     key={letterIndex}
@@ -109,13 +112,14 @@ const Lanyard = () => {
                     y={textY}
                     textAnchor="middle"
                     alignmentBaseline="middle"
-                    fontSize="22"
+                    fontSize={fontSize}
                     fontWeight="900"
                     fill="#0A0A0A"
                     fontFamily="Montserrat, sans-serif"
                     transform={`rotate(${angle}, ${textX}, ${textY})`}
                     className="lanyard-name-text"
                     style={{
+                      letterSpacing: '6px',
                       userSelect: 'none',
                     }}
                   >
