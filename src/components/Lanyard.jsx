@@ -78,10 +78,10 @@ const Lanyard = () => {
   const curveAmount = Math.abs(currentAngle) * 1.2 + 30
   const controlX = centerStrapX + curveAmount * Math.sign(currentAngle)
   const textPositions = [0.89]
-  const nameLetters = 'AMMY'.split(' ')
+  const nameLetters = 'Ammy'.split('')
 
   return (
-    <div className="flex flex-col items-center w-full px-2 sm:px-1 md:px-2" style={{ marginTop: 0 }}>
+    <div className="flex flex-col items-center w-full px-2 sm:px-1 md:px-2" style={{ marginTop: 0, position: 'relative' }}>
       <motion.div
         style={{ originY: 0, originX: 0.5, rotate: springAngle }}
         onClick={handleSwingClick}
@@ -100,7 +100,7 @@ const Lanyard = () => {
               {nameLetters.map((letter, letterIndex) => {
                 const t = pos - (letterIndex * 0.06);
                 const textX = Math.pow(1 - t, 2) * centerStrapX + 2 * t * (1 - t) * controlX + Math.pow(t, 2) * centerStrapX;
-                const textY = t * bottomY - 20;
+                const textY = t * bottomY - 9;
                 const angle = Math.atan2(textY - (t + 0.01) * bottomY, textX - (Math.pow(1 - (t + 0.01), 2) * centerStrapX + 2 * (t + 0.01) * (1 - (t + 0.01)) * controlX + Math.pow(t + 0.01, 2) * centerStrapX)) * (180 / Math.PI);
                 // Responsive font size for mobile friendliness
                 const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;

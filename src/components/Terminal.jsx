@@ -20,7 +20,16 @@ const Terminal = () => {
   } = useTerminal()
 
   return (
-    <div className="terminal-container-long flex flex-col flex-1 min-h-0">
+    <div
+      className="terminal-container-long flex flex-col flex-1 min-h-0"
+      style={{
+        background: 'rgba(10,10,10,0.55)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        border: '1.5px solid #880808',
+        boxShadow: '0 4px 32px #0008',
+      }}
+    >
       <TerminalHeader currentPath={currentPath} />
       
       <div className="terminal-body flex-1 min-h-0 overflow-auto">
