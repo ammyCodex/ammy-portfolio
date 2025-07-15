@@ -307,6 +307,9 @@ const SnakeGame = ({ onClose }) => {
     }
   }, [gameOver])
 
+  // Helper to determine if in a 'startable' state
+  const isStartableScreen = showLoader || showThankYou || showInstructions || gameOver;
+
   // Render board
   const renderBoard = () => {
     const board = []
@@ -335,7 +338,13 @@ const SnakeGame = ({ onClose }) => {
   }
 
   return (
-    <div className="snake-game" tabIndex={0}>
+    <div
+      className="snake-game"
+      tabIndex={0}
+      onTouchStart={isMobile && isStartableScreen ? () => handleTouchStart('start') : undefined}
+      onClick={isMobile && isStartableScreen ? () => handleTouchStart('start') : undefined}
+      style={isMobile && isStartableScreen ? { touchAction: 'manipulation' } : {}}
+    >
       {showLoader ? (
         <div className="snake-loader text-terminal-accent text-lg font-bold text-center p-8">
           Loading Snake Game...
@@ -353,10 +362,12 @@ const SnakeGame = ({ onClose }) => {
               <span className="spinner-char">⠏</span>
             </div>
           </div>
+          {isMobile && <div className="text-xs text-terminal-accent mt-2">Tap anywhere to start</div>}
         </div>
       ) : showThankYou ? (
         <div className="snake-thankyou text-terminal-accent text-lg font-bold text-center p-8 animate-pulse">
           Thank you for playing!
+          {isMobile && <div className="text-xs text-terminal-accent mt-2">Tap anywhere to start</div>}
         </div>
       ) : showInstructions ? (
         <div className="snake-instructions text-terminal-text text-sm text-center p-4">
@@ -368,6 +379,7 @@ const SnakeGame = ({ onClose }) => {
           <div className="mb-1">• Press Space to pause/resume</div>
           <div className="mb-3">• Press ESC to exit the game</div>
           <div className="text-terminal-accent text-xs">Press Enter to start</div>
+          {isMobile && <div className="text-xs text-terminal-accent mt-2">Tap anywhere to start</div>}
         </div>
       ) : (
         <>

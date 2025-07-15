@@ -79,7 +79,12 @@ const MatrixRain = ({ onClose }) => {
 
   if (showLoader) {
     return (
-      <div className="matrix-rain-container flex items-center justify-center min-h-screen">
+      <div
+        className="matrix-rain-container flex items-center justify-center min-h-screen"
+        onTouchStart={() => isMobile && setShowLoader(false)}
+        onClick={() => isMobile && setShowLoader(false)}
+        style={{ touchAction: 'manipulation' }}
+      >
         <div className="matrix-loader text-red-400 text-lg font-bold text-center p-8">
           <div className="loading-spinner mb-4">
             <span className="spinner-char">⠋</span>
@@ -99,10 +104,13 @@ const MatrixRain = ({ onClose }) => {
             Press <b>ESC</b> to exit
           </div>
           {isMobile && (
-            <div style={{ marginTop: 24, display: 'flex', justifyContent: 'center', gap: 16 }}>
-              <button className="matrix-btn" style={{ padding: '10px 24px', background: '#28CA42', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 16 }} onClick={() => setShowLoader(false)}>Start</button>
-              <button className="matrix-btn" style={{ padding: '10px 24px', background: '#880808', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 16 }} onClick={onClose}>Exit</button>
-            </div>
+            <>
+              <div style={{ marginTop: 24, display: 'flex', justifyContent: 'center', gap: 16 }}>
+                <button className="matrix-btn" style={{ padding: '10px 24px', background: '#28CA42', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 16 }} onClick={e => { e.stopPropagation(); setShowLoader(false); }}>Press Enter to Start</button>
+                <button className="matrix-btn" style={{ padding: '10px 24px', background: '#880808', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 16 }} onClick={e => { e.stopPropagation(); onClose(); }}>Exit</button>
+              </div>
+              <div className="text-xs text-red-300 mt-2">Tap anywhere to start</div>
+            </>
           )}
         </div>
       </div>
