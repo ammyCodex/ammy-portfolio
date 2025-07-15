@@ -55,6 +55,9 @@ export default function Preloader() {
   const cardRef = useRef(null)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
 
+  // Responsive detection
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 600;
+
   // Animate logo in
   useEffect(() => {
     const logoTimer = setTimeout(() => setLogoVisible(true), 300)
@@ -114,7 +117,7 @@ export default function Preloader() {
       alignItems: 'center',
       justifyContent: 'center',
       fontFamily: 'JetBrains Mono, Fira Code, monospace',
-      fontSize: 18,
+      fontSize: isMobile ? 14 : 18,
       letterSpacing: 1,
       flexDirection: 'column',
       transition: 'opacity 0.5s',
@@ -124,10 +127,11 @@ export default function Preloader() {
         ref={cardRef}
         style={{
           position: 'relative',
-          borderRadius: 18,
-          padding: '32px 28px',
-          minWidth: 320,
-          maxWidth: '90vw',
+          borderRadius: isMobile ? 10 : 18,
+          padding: isMobile ? '18px 8px' : '32px 28px',
+          minWidth: isMobile ? 0 : 320,
+          width: isMobile ? '95vw' : undefined,
+          maxWidth: isMobile ? '98vw' : '90vw',
           border: '1.5px solid #880808',
           display: 'flex',
           flexDirection: 'column',
@@ -144,14 +148,14 @@ export default function Preloader() {
         {/* Logo animation */}
         <div
           style={{
-            width: 64,
-            height: 64,
+            width: isMobile ? 40 : 64,
+            height: isMobile ? 40 : 64,
             background: '#880808',
             borderRadius: '50%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: 24,
+            marginBottom: isMobile ? 12 : 24,
             opacity: logoVisible ? 1 : 0,
             transform: logoVisible ? 'scale(1)' : 'scale(0.7)',
             transition: 'opacity 0.6s cubic-bezier(.4,2,.6,1), transform 0.7s cubic-bezier(.4,2,.6,1)',
@@ -180,13 +184,13 @@ export default function Preloader() {
               style={{
                 color: '#FFF9E5',
                 fontWeight: line.startsWith('Welcome') ? 700 : 400,
-                marginBottom: 2,
-                fontSize: line.startsWith('Welcome') ? 22 : 16,
+                marginBottom: isMobile ? 1 : 2,
+                fontSize: line.startsWith('Welcome') ? (isMobile ? 16 : 22) : (isMobile ? 12 : 16),
                 letterSpacing: 1,
                 fontFamily: 'inherit',
                 opacity: 1,
                 animation: `preloader-fadein 0.5s ${i * 0.32 + 0.2}s both`,
-                minHeight: line.startsWith('Welcome') ? 28 : 20,
+                minHeight: line.startsWith('Welcome') ? (isMobile ? 20 : 28) : (isMobile ? 14 : 20),
                 whiteSpace: 'pre',
               }}
             >
@@ -197,7 +201,7 @@ export default function Preloader() {
           ))}
           {/* Blinking cursor after last line */}
           {displayedLines.length === bootLines.length && (
-            <div className="terminal-cursor" style={{ display: 'inline-block', width: 10, height: 20, background: '#880808', marginLeft: 6, animation: 'blink 1s infinite' }}></div>
+            <div className="terminal-cursor" style={{ display: 'inline-block', width: isMobile ? 8 : 10, height: isMobile ? 14 : 20, background: '#880808', marginLeft: 6, animation: 'blink 1s infinite' }}></div>
           )}
         </div>
       </div>
