@@ -5,6 +5,20 @@ const isMobile = typeof window !== 'undefined' && (window.innerWidth <= 768 || /
 const MatrixRain = ({ onClose }) => {
   const canvasRef = useRef(null)
   const [showLoader, setShowLoader] = useState(true)
+  // Add long-press gesture for mobile exit
+  const longPressTimeout = useRef(null);
+  const handleSimulationTouchStart = (e) => {
+    if (!isMobile || showLoader) return;
+    longPressTimeout.current = setTimeout(() => {
+      onClose();
+    }, 1000); // 1 second long-press
+  };
+  const handleSimulationTouchEnd = (e) => {
+    if (longPressTimeout.current) {
+      clearTimeout(longPressTimeout.current);
+      longPressTimeout.current = null;
+    }
+  };
 
   // Loader key handling
   useEffect(() => {
@@ -81,8 +95,8 @@ const MatrixRain = ({ onClose }) => {
     return (
       <div
         className="matrix-rain-container flex items-center justify-center min-h-screen"
-        onTouchStart={() => isMobile && setShowLoader(false)}
-        onClick={() => isMobile && setShowLoader(false)}
+        onClick={() => setShowLoader(false)}
+        onTouchEnd={() => isMobile && setShowLoader(false)}
         style={{ touchAction: 'manipulation' }}
       >
         <div className="matrix-loader text-red-400 text-lg font-bold text-center p-8">
@@ -104,10 +118,7 @@ const MatrixRain = ({ onClose }) => {
             Press <b>ESC</b> to exit
           </div>
           {isMobile && (
-            <>
-              {/* Removed buttons, only show tap message */}
-              <div className="text-xs text-red-300 mt-2">Tap anywhere to start</div>
-            </>
+            <div className="text-xs text-red-300 mt-2">Tap anywhere to start</div>
           )}
         </div>
       </div>
@@ -115,7 +126,11 @@ const MatrixRain = ({ onClose }) => {
   }
 
   return (
-    <div className="matrix-rain-container">
+    <div className="matrix-rain-container"
+      onTouchStart={handleSimulationTouchStart}
+      onTouchEnd={handleSimulationTouchEnd}
+      onTouchCancel={handleSimulationTouchEnd}
+    >
       <div className="matrix-header">
         <div className="text-red-400 text-lg font-bold mb-2">
           💻 MATRIX RAIN - SIMULATION ACTIVE
@@ -123,10 +138,9 @@ const MatrixRain = ({ onClose }) => {
         <div className="text-red-300 text-sm">
           Press ESC to exit matrix mode
         </div>
+        {/* Show mobile exit gesture message during simulation */}
         {isMobile && (
-          <div style={{ marginTop: 12, display: 'flex', justifyContent: 'center' }}>
-            <button className="terminal-btn red" onClick={onClose}>Exit</button>
-          </div>
+          <div className="text-xs text-red-300 mt-2 text-center">Long-press anywhere to exit the simulation</div>
         )}
       </div>
       <canvas

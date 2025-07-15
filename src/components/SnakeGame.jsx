@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { useMediaQuery } from 'react-responsive';
 
 const BOARD_WIDTH = 30
@@ -274,6 +274,22 @@ const SnakeGame = ({ onClose }) => {
     }
   };
 
+  // Add long-press gesture for mobile exit
+  const longPressTimeout = useRef(null);
+  const handleGameAreaTouchStart = (e) => {
+    if (!isMobile || showLoader || showThankYou || showInstructions || gameOver) return;
+    longPressTimeout.current = setTimeout(() => {
+      setShowThankYou(true);
+      setTimeout(() => onClose(), 900);
+    }, 1000); // 1 second long-press
+  };
+  const handleGameAreaTouchEnd = (e) => {
+    if (longPressTimeout.current) {
+      clearTimeout(longPressTimeout.current);
+      longPressTimeout.current = null;
+    }
+  };
+
   // Game loop
   useEffect(() => {
     const interval = setInterval(moveSnake, GAME_SPEED)
@@ -412,7 +428,13 @@ const SnakeGame = ({ onClose }) => {
             )}
           </div>
 
-          <div className="snake-board mb-4">
+          {/* Game board area */}
+          <div
+            className="snake-board mb-4"
+            onTouchStart={handleGameAreaTouchStart}
+            onTouchEnd={handleGameAreaTouchEnd}
+            onTouchCancel={handleGameAreaTouchEnd}
+          >
             <div className="border border-terminal-accent p-1 inline-block overflow-auto" style={{ maxWidth: '100%', maxHeight: '60vh' }}>
               {renderBoard().map((row, index) => (
                 <div key={index} className="text-terminal-text font-mono text-xs leading-none whitespace-pre">
@@ -421,6 +443,10 @@ const SnakeGame = ({ onClose }) => {
               ))}
             </div>
           </div>
+          {/* Show mobile exit gesture message during gameplay */}
+          {isMobile && !showLoader && !showThankYou && !showInstructions && !gameOver && (
+            <div className="text-xs text-terminal-accent text-center mb-2">Long-press anywhere to exit the game</div>
+          )}
 
           {gameOver && (
             <div className="snake-game-over mb-4 text-center">
@@ -451,9 +477,6 @@ const SnakeGame = ({ onClose }) => {
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}>
             <button className="snake-btn" style={{ width: 48, height: 48, margin: 4 }} onClick={() => handleTouchMove('down')}>⬇️</button>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}>
-            <button className="snake-btn" style={{ width: 80, height: 40, margin: 4, background: '#880808', color: '#fff', borderRadius: 8 }} onClick={() => handleTouchStart('exit')}>Exit</button>
           </div>
         </div>
       )}
