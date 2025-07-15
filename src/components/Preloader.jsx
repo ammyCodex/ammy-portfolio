@@ -54,9 +54,18 @@ export default function Preloader() {
   const [tildeOffset, setTildeOffset] = useState(0)
   const cardRef = useRef(null)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const [fadeIn, setFadeIn] = useState(false)
 
   // Responsive detection
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 600;
+
+  // Fade-in effect for mobile
+  useEffect(() => {
+    if (isMobile) {
+      setFadeIn(false)
+      setTimeout(() => setFadeIn(true), 50)
+    }
+  }, [isMobile])
 
   // Animate logo in
   useEffect(() => {
@@ -76,32 +85,46 @@ export default function Preloader() {
     return () => raf && cancelAnimationFrame(raf)
   }, [])
 
-  // Tilt effect
+  // Tilt effect: mouse for desktop, device orientation for mobile
   useEffect(() => {
-    const handleMove = (e) => {
+    if (isMobile && window.DeviceOrientationEvent) {
+      const handleOrientation = (e) => {
+        // gamma: left/right, beta: up/down
+        const x = (e.gamma || 0) / 45 // -45 to 45
+        const y = (e.beta || 0 - 45) / 45 // 0 to 90, center at 45
+        setTilt({
+          x: x * 12, // max 12deg left/right
+          y: -y * 12 // max 12deg up/down
+        })
+      }
+      window.addEventListener('deviceorientation', handleOrientation, true)
+      return () => window.removeEventListener('deviceorientation', handleOrientation, true)
+    } else if (!isMobile) {
+      const handleMove = (e) => {
+        const card = cardRef.current
+        if (!card) return
+        const rect = card.getBoundingClientRect()
+        const x = (e.clientX - rect.left) / rect.width
+        const y = (e.clientY - rect.top) / rect.height
+        setTilt({
+          x: (x - 0.5) * 18, // max 9deg left/right
+          y: (y - 0.5) * -18 // max 9deg up/down
+        })
+      }
+      const handleLeave = () => setTilt({ x: 0, y: 0 })
       const card = cardRef.current
-      if (!card) return
-      const rect = card.getBoundingClientRect()
-      const x = (e.clientX - rect.left) / rect.width
-      const y = (e.clientY - rect.top) / rect.height
-      setTilt({
-        x: (x - 0.5) * 18, // max 9deg left/right
-        y: (y - 0.5) * -18 // max 9deg up/down
-      })
-    }
-    const handleLeave = () => setTilt({ x: 0, y: 0 })
-    const card = cardRef.current
-    if (card) {
-      card.addEventListener('mousemove', handleMove)
-      card.addEventListener('mouseleave', handleLeave)
-    }
-    return () => {
       if (card) {
-        card.removeEventListener('mousemove', handleMove)
-        card.removeEventListener('mouseleave', handleLeave)
+        card.addEventListener('mousemove', handleMove)
+        card.addEventListener('mouseleave', handleLeave)
+      }
+      return () => {
+        if (card) {
+          card.removeEventListener('mousemove', handleMove)
+          card.removeEventListener('mouseleave', handleLeave)
+        }
       }
     }
-  }, [])
+  }, [isMobile])
 
   return (
     <div style={{
@@ -122,6 +145,10 @@ export default function Preloader() {
       flexDirection: 'column',
       transition: 'opacity 0.5s',
       overflow: 'hidden',
+      opacity: isMobile ? (fadeIn ? 1 : 0) : 1,
+      transitionProperty: 'opacity',
+      transitionDuration: '0.7s',
+      transitionTimingFunction: 'cubic-bezier(.4,2,.6,1)',
     }}>
       <div
         ref={cardRef}
