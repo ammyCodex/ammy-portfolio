@@ -343,7 +343,11 @@ const SnakeGame = ({ onClose }) => {
       tabIndex={0}
     >
       {showLoader ? (
-        <div className="snake-loader text-terminal-accent text-lg font-bold text-center p-8">
+        <div className="snake-loader text-terminal-accent text-lg font-bold text-center p-8"
+          onTouchStart={() => isMobile && handleTouchStart('start')}
+          onClick={() => isMobile && handleTouchStart('start')}
+          style={{ touchAction: 'manipulation' }}
+        >
           Loading Snake Game...
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 24 }}>
             <div className="loading-spinner">
@@ -360,24 +364,26 @@ const SnakeGame = ({ onClose }) => {
             </div>
           </div>
           {isMobile && (
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginTop: 24 }}>
-              <button className="snake-btn" style={{ padding: '12px 32px', background: '#28CA42', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 18 }} onClick={() => handleTouchStart('start')}>Enter</button>
-              <button className="snake-btn" style={{ padding: '12px 32px', background: '#880808', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 18 }} onClick={() => handleTouchStart('exit')}>ESC</button>
-            </div>
+            <div className="text-xs text-terminal-accent mt-2">Tap anywhere to start</div>
           )}
         </div>
       ) : showThankYou ? (
-        <div className="snake-thankyou text-terminal-accent text-lg font-bold text-center p-8 animate-pulse">
+        <div className="snake-thankyou text-terminal-accent text-lg font-bold text-center p-8 animate-pulse"
+          onTouchStart={() => isMobile && handleTouchStart('start')}
+          onClick={() => isMobile && handleTouchStart('start')}
+          style={{ touchAction: 'manipulation' }}
+        >
           Thank you for playing!
           {isMobile && (
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginTop: 24 }}>
-              <button className="snake-btn" style={{ padding: '12px 32px', background: '#28CA42', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 18 }} onClick={() => handleTouchStart('start')}>Enter</button>
-              <button className="snake-btn" style={{ padding: '12px 32px', background: '#880808', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 18 }} onClick={() => handleTouchStart('exit')}>ESC</button>
-            </div>
+            <div className="text-xs text-terminal-accent mt-2">Tap anywhere to restart</div>
           )}
         </div>
       ) : showInstructions ? (
-        <div className="snake-instructions text-terminal-text text-sm text-center p-4">
+        <div className="snake-instructions text-terminal-text text-sm text-center p-4"
+          onTouchStart={() => isMobile && handleTouchStart('start')}
+          onClick={() => isMobile && handleTouchStart('start')}
+          style={{ touchAction: 'manipulation' }}
+        >
           <div className="text-terminal-accent text-lg font-bold mb-2">🐍 Snake Game</div>
           <div className="mb-2">🎮 <b>How to play:</b></div>
           <div className="mb-1">• Use arrow keys or WASD to move the snake</div>
@@ -387,10 +393,7 @@ const SnakeGame = ({ onClose }) => {
           <div className="mb-3">• Press ESC to exit the game</div>
           <div className="text-terminal-accent text-xs">Press Enter to start</div>
           {isMobile && (
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginTop: 24 }}>
-              <button className="snake-btn" style={{ padding: '12px 32px', background: '#28CA42', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 18 }} onClick={() => handleTouchStart('start')}>Enter</button>
-              <button className="snake-btn" style={{ padding: '12px 32px', background: '#880808', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 18 }} onClick={() => handleTouchStart('exit')}>ESC</button>
-            </div>
+            <div className="text-xs text-terminal-accent mt-2">Tap anywhere to start</div>
           )}
         </div>
       ) : (

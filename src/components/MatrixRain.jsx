@@ -105,10 +105,7 @@ const MatrixRain = ({ onClose }) => {
           </div>
           {isMobile && (
             <>
-              <div style={{ marginTop: 24, display: 'flex', justifyContent: 'center', gap: 16 }}>
-                <button className="terminal-btn green" onClick={e => { e.stopPropagation(); setShowLoader(false); }}>Press Enter to Start</button>
-                <button className="terminal-btn red" onClick={e => { e.stopPropagation(); onClose(); }}>Exit</button>
-              </div>
+              {/* Removed buttons, only show tap message */}
               <div className="text-xs text-red-300 mt-2">Tap anywhere to start</div>
             </>
           )}
