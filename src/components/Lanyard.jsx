@@ -78,7 +78,7 @@ const Lanyard = () => {
   const curveAmount = Math.abs(currentAngle) * 1.2 + 30
   const controlX = centerStrapX + curveAmount * Math.sign(currentAngle)
   const textPositions = [0.89]
-  const nameLetters = 'AMMY'.split('')
+  const nameLetters = 'AMMY'.split(' ')
 
   return (
     <div className="flex flex-col items-center w-full px-2 sm:px-1 md:px-2" style={{ marginTop: 0 }}>
@@ -100,7 +100,7 @@ const Lanyard = () => {
               {nameLetters.map((letter, letterIndex) => {
                 const t = pos - (letterIndex * 0.06);
                 const textX = Math.pow(1 - t, 2) * centerStrapX + 2 * t * (1 - t) * controlX + Math.pow(t, 2) * centerStrapX;
-                const textY = t * bottomY;
+                const textY = t * bottomY - 20;
                 const angle = Math.atan2(textY - (t + 0.01) * bottomY, textX - (Math.pow(1 - (t + 0.01), 2) * centerStrapX + 2 * (t + 0.01) * (1 - (t + 0.01)) * controlX + Math.pow(t + 0.01, 2) * centerStrapX)) * (180 / Math.PI);
                 return (
                   <text
@@ -112,11 +112,10 @@ const Lanyard = () => {
                     fontSize="22"
                     fontWeight="900"
                     fill="#0A0A0A"
-                    // fontFamily="Miniver, cursive"
+                    fontFamily="Montserrat, sans-serif"
                     transform={`rotate(${angle}, ${textX}, ${textY})`}
                     className="lanyard-name-text"
                     style={{
-                      filter: 'drop-shadow(0 1px 2px #2228)',
                       userSelect: 'none',
                     }}
                   >
