@@ -276,18 +276,48 @@ const SnakeGame = ({ onClose }) => {
 
   // Add long-press gesture for mobile exit
   const longPressTimeout = useRef(null);
+  // Update long-press logic to handle game over restart
   const handleGameAreaTouchStart = (e) => {
-    if (!isMobile || showLoader || showThankYou || showInstructions || gameOver) return;
+    if (!isMobile || showLoader || showThankYou || showInstructions) return;
+    if (gameOver) {
+      longPressTimeout.current = setTimeout(() => {
+        setShowInstructions(false);
+        setGameOver(false);
+        setScore(0);
+        setSnake(INITIAL_SNAKE);
+        setDirection(INITIAL_DIRECTION);
+        setFood(generateFood());
+        setIsPaused(false);
+      }, 1000); // 1 second long-press to restart
+      return;
+    }
     longPressTimeout.current = setTimeout(() => {
       setShowThankYou(true);
       setTimeout(() => onClose(), 900);
-    }, 1000); // 1 second long-press
+    }, 1000); // 1 second long-press to exit
   };
   const handleGameAreaTouchEnd = (e) => {
     if (longPressTimeout.current) {
       clearTimeout(longPressTimeout.current);
       longPressTimeout.current = null;
     }
+  };
+
+  // Double-tap to restart logic for game over
+  const lastTapRef = useRef(0);
+  const handleGameOverTouch = (e) => {
+    if (!isMobile || !gameOver) return;
+    const now = Date.now();
+    if (now - lastTapRef.current < 400) { // 400ms threshold for double-tap
+      setShowInstructions(false);
+      setGameOver(false);
+      setScore(0);
+      setSnake(INITIAL_SNAKE);
+      setDirection(INITIAL_DIRECTION);
+      setFood(generateFood());
+      setIsPaused(false);
+    }
+    lastTapRef.current = now;
   };
 
   // Game loop
@@ -449,7 +479,10 @@ const SnakeGame = ({ onClose }) => {
           )}
 
           {gameOver && (
-            <div className="snake-game-over mb-4 text-center">
+            <div
+              className="snake-game-over mb-4 text-center"
+              onTouchStart={handleGameOverTouch}
+            >
               <div className={`text-error-text text-lg font-bold mb-2 ${flashGameOver ? 'animate-pulse' : ''}`}
                 style={{ animation: flashGameOver ? 'flash 0.4s linear' : undefined }}>
                 💀 Game Over!
@@ -460,6 +493,9 @@ const SnakeGame = ({ onClose }) => {
               <div className="text-terminal-accent text-sm font-bold">
                 Press Enter to play again, ESC to exit
               </div>
+              {isMobile && (
+                <div className="text-xs text-terminal-accent text-center mt-2">Double-tap anywhere to restart</div>
+              )}
             </div>
           )}
         </>
