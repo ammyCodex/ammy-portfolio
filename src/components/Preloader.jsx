@@ -210,9 +210,10 @@ export default function Preloader() {
           position: 'relative',
           borderRadius: isMobile ? 10 : 18,
           padding: isMobile ? '18px 8px' : '32px 28px',
-          minWidth: isMobile ? 0 : 320,
+          minWidth: isMobile ? 220 : 320,
           width: isMobile ? '95vw' : undefined,
           maxWidth: isMobile ? '98vw' : '90vw',
+          minHeight: isMobile ? 220 : 320, // Ensures stable height
           border: '1.5px solid #880808',
           display: 'flex',
           flexDirection: 'column',
