@@ -332,6 +332,34 @@ const SnakeGame = ({ onClose }) => {
     lastTapRef.current = now;
   };
 
+  // Long-press to exit, single tap to restart on game over
+  const longPressTimeoutGameOver = useRef(null);
+  const handleGameOverTouchStart = (e) => {
+    if (!isMobile || !gameOver) return;
+    longPressTimeoutGameOver.current = setTimeout(() => {
+      setShowThankYou(true);
+      setTimeout(() => onClose(), 900);
+    }, 1000); // 1 second long-press to exit
+  };
+  const handleGameOverTouchEnd = (e) => {
+    if (!isMobile || !gameOver) return;
+    if (longPressTimeoutGameOver.current) {
+      clearTimeout(longPressTimeoutGameOver.current);
+      longPressTimeoutGameOver.current = null;
+    }
+  };
+  const handleGameOverClick = (e) => {
+    if (!isMobile || !gameOver) return;
+    // Single tap: restart
+    setShowInstructions(false);
+    setGameOver(false);
+    setScore(0);
+    setSnake(INITIAL_SNAKE);
+    setDirection(INITIAL_DIRECTION);
+    setFood(generateFood());
+    setIsPaused(false);
+  };
+
   // Game loop
   useEffect(() => {
     const interval = setInterval(moveSnake, GAME_SPEED)
@@ -493,8 +521,10 @@ const SnakeGame = ({ onClose }) => {
           {gameOver && (
             <div
               className="snake-game-over mb-4 text-center"
-              onTouchStart={handleGameOverTouch}
-              onClick={handleGameOverTouch}
+              onTouchStart={handleGameOverTouchStart}
+              onTouchEnd={handleGameOverTouchEnd}
+              onTouchCancel={handleGameOverTouchEnd}
+              onClick={handleGameOverClick}
             >
               <div className={`text-error-text text-lg font-bold mb-2 ${flashGameOver ? 'animate-pulse' : ''}`}
                 style={{ animation: flashGameOver ? 'flash 0.4s linear' : undefined }}>
@@ -509,10 +539,7 @@ const SnakeGame = ({ onClose }) => {
                 </div>
               )}
               {isMobile && (
-                <>
-                  <div className="text-xs text-terminal-accent text-center mt-2">Tap anywhere to restart</div>
-                  <div className="text-xs text-terminal-accent text-center mt-1">Double-tap anywhere to exit</div>
-                </>
+                <div className="text-xs text-terminal-accent text-center mt-2">Long-press anywhere to exit</div>
               )}
             </div>
           )}

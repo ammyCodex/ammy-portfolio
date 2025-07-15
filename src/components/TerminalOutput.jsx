@@ -4,18 +4,26 @@ import React, { useEffect, useState } from 'react'
 const TerminalOutput = ({ history, outputRef, currentPath }) => {
   const [animatedOutputs, setAnimatedOutputs] = useState({})
 
+  const isMobile = typeof window !== 'undefined' && (window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+
   useEffect(() => {
     // Find the most recent output with a downloadUrl or openUrl
     const last = history[history.length - 1]
     if (last && last.type === 'output' && last.content) {
       if (last.content.downloadUrl) {
         const { downloadUrl, downloadName } = last.content
-        const link = document.createElement('a')
-        link.href = downloadUrl
-        link.download = downloadName || ''
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
+        if (isMobile) {
+          // On mobile, open in new tab
+          window.open(downloadUrl, '_blank', 'noopener,noreferrer')
+        } else {
+          // On desktop, trigger download
+          const link = document.createElement('a')
+          link.href = downloadUrl
+          link.download = downloadName || ''
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+        }
       } else if (last.content.openUrl) {
         // Open URL in new tab
         window.open(last.content.openUrl, '_blank', 'noopener,noreferrer')
