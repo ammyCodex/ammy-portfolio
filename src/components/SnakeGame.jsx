@@ -530,10 +530,8 @@ const SnakeGame = ({ onClose }) => {
           {gameOver && (
             <div
               className="snake-game-over mb-4 text-center"
-              onTouchStart={handleGameOverTouchStart}
               onTouchEnd={handleGameOverTouchEnd}
-              onTouchCancel={handleGameOverTouchEnd}
-              onTouchMove={handleGameOverTouchMove}
+              onClick={handleGameOverClick}
             >
               <div className={`text-error-text text-lg font-bold mb-2 ${flashGameOver ? 'animate-pulse' : ''}`}
                 style={{ animation: flashGameOver ? 'flash 0.4s linear' : undefined }}>
@@ -548,7 +546,10 @@ const SnakeGame = ({ onClose }) => {
                 </div>
               )}
               {isMobile && (
-                <div className="text-xs text-terminal-accent text-center mt-2">Long-press anywhere to exit</div>
+                <>
+                  <div className="text-xs text-terminal-accent text-center mt-2">Tap anywhere to restart</div>
+                  <div className="text-xs text-terminal-accent text-center mt-1">Two-finger tap anywhere to exit</div>
+                </>
               )}
             </div>
           )}
