@@ -26,7 +26,7 @@ const IDCard = () => {
       <div className="flex flex-col justify-between p-3 sm:p-4 md:p-5 text-white">
         <div>
           <h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-wide">Amisha Sharma</h2>
-          <p className="text-sm sm:text-base text-gray-300 mb-2">AI Developer/SDE</p>
+          <p className="text-sm sm:text-base text-gray-300 mb-2">AI Developer</p>
           <div className="text-xs text-gray-400 mb-1">Location: Las Vegas, Nevada</div>
           <div className="text-xs text-gray-400 mb-1">Email: connect.amisha.usa@gmail.com</div>
           <div className="text-xs text-gray-400 mb-3">Phone: +1 (702) 403-3543</div>

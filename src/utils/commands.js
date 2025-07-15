@@ -867,7 +867,7 @@ export const executeCommand = (input, currentPath) => {
 
   return {
     output: [
-      `Command '${input}' not found.`,
+      `Command '${input}' not found. `,
       "Type 'help' for a list of available commands."
     ]
   };
