@@ -480,13 +480,6 @@ const SnakeGame = ({ onClose }) => {
           </div>
         </div>
       )}
-      {/* Show start/exit on mobile for loader/instructions/gameover */}
-      {isMobile && (showLoader || showThankYou || showInstructions || gameOver) && (
-        <div className="snake-mobile-controls" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: 16 }}>
-          <button className="snake-btn" style={{ width: 80, height: 40, margin: 4, background: '#28CA42', color: '#fff', borderRadius: 8 }} onClick={() => handleTouchStart('start')}>Start</button>
-          <button className="snake-btn" style={{ width: 80, height: 40, margin: 4, background: '#880808', color: '#fff', borderRadius: 8 }} onClick={() => handleTouchStart('exit')}>Exit</button>
-        </div>
-      )}
     </div>
   )
 }
