@@ -876,5 +876,6 @@ export const executeCommand = (input, currentPath) => {
 export const getAvailableCommands = () => [
   'help', 'ls', 'cd skills', 'cd projects', 'cd experience', 'cd education', 'cd publications', 'cd about', 'cd ..', 'pwd',
   'whoami', 'date', 'clear',
-  'sudo hire-amisha', 'ammy', 'fortune', 'neofetch', 'open resume', 'open github', 'sleep 1', 'sleep 2', 'sleep 3', 'joke'
+  'sudo hire-amisha', 'ammy', 'fortune', 'neofetch', 'open resume', 'open github', 'sleep 1', 'sleep 2', 'sleep 3', 'joke',
+  'sudo make-me-laugh', 'sudo mentor', 'sudo matrix-rain', 'sudo play-snake'
 ];

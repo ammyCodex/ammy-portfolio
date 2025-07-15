@@ -4,16 +4,35 @@ import { motion, useAnimation, useMotionValue, useSpring } from 'framer-motion'
 
 const LANYARD_COLOR = '#880808'
 const LANYARD_WIDTH = 52
-const LANYARD_HEIGHT = 260
+const BASE_LANYARD_HEIGHT = 240
+const BASE_MARGIN_TOP = -180
 const CARD_WIDTH = 370
 
 const svgWidth = CARD_WIDTH + 40
 const centerStrapX = svgWidth / 2
-const bottomY = LANYARD_HEIGHT - 10
 
 const SPRING_CONFIG = { stiffness: 200, damping: 12, mass: 0.7 }
 
 const Lanyard = () => {
+  const [lanyardHeight, setLanyardHeight] = React.useState(BASE_LANYARD_HEIGHT)
+  const [marginTop, setMarginTop] = React.useState(BASE_MARGIN_TOP)
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setLanyardHeight(BASE_LANYARD_HEIGHT * 1.2)
+        setMarginTop(BASE_MARGIN_TOP * 1.2)
+      } else {
+        setLanyardHeight(BASE_LANYARD_HEIGHT)
+        setMarginTop(BASE_MARGIN_TOP)
+      }
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const bottomY = lanyardHeight - 10
   const angle = useMotionValue(0)
   const springAngle = useSpring(angle, SPRING_CONFIG)
   const isAnimating = useRef(false)
@@ -56,6 +75,10 @@ const Lanyard = () => {
     if (e.target.closest('a[data-link]')) return
     swing()
   }
+  const curveAmount = Math.abs(currentAngle) * 1.2 + 30
+  const controlX = centerStrapX + curveAmount * Math.sign(currentAngle)
+  const textPositions = [0.89]
+  const nameLetters = 'AMMY'.split('')
 
   return (
     <div className="flex flex-col items-center w-full px-2 sm:px-1 md:px-2" style={{ marginTop: 0 }}>
@@ -64,7 +87,7 @@ const Lanyard = () => {
         onClick={handleSwingClick}
         className="flex flex-col items-center cursor-pointer w-full"
       >
-        <svg width={svgWidth} height={LANYARD_HEIGHT} style={{ marginTop: -180, maxWidth: '100%' }}>
+        <svg width={svgWidth} height={lanyardHeight} style={{ marginTop, maxWidth: '100%' }}>
           <path
             d={getStrapPath(centerStrapX, currentAngle)}
             stroke={LANYARD_COLOR}
@@ -72,45 +95,37 @@ const Lanyard = () => {
             fill="none"
             strokeLinecap="round"
           />
-          {/* Group the red tag and Infosys text for unified animation */}
-          <g transform={`rotate(${springAngle.get()} ${centerStrapX} ${bottomY - 18})`}>
-            <rect
-              x={centerStrapX - 48}
-              y={bottomY - 32}
-              width={96}
-              height={28}
-              rx={8}
-              fill="#880808"
-              stroke="#880808"
-              strokeWidth={2}
-              style={{ filter: 'drop-shadow(0 2px 6px #0006)' }}
-            />
-            <text
-              x={centerStrapX}
-              y={bottomY - 18}
-              textAnchor="middle"
-              alignmentBaseline="middle"
-              fontSize="15"
-              fontWeight="bold"
-              fill="#fff"
-              fontFamily="Segoe UI, Arial, Helvetica, sans-serif"
-              letterSpacing="2px"
-              className="lanyard-infosys-text"
-              style={{
-                textTransform: 'uppercase',
-                filter: 'drop-shadow(0 1px 2px #2228)',
-                userSelect: 'none',
-              }}
-            >
-              Infosys
-            </text>
-          </g>
-          {/* Mobile compatibility: scale tag and font on small screens */}
-          <style>{`
-            @media (max-width: 500px) {
-              .lanyard-tag { width: 72px !important; height: 22px !important; font-size: 12px !important; }
-            }
-          `}</style>
+          {textPositions.map((pos, posIndex) => (
+            <g key={posIndex}>
+              {nameLetters.map((letter, letterIndex) => {
+                const t = pos - (letterIndex * 0.06);
+                const textX = Math.pow(1 - t, 2) * centerStrapX + 2 * t * (1 - t) * controlX + Math.pow(t, 2) * centerStrapX;
+                const textY = t * bottomY;
+                const angle = Math.atan2(textY - (t + 0.01) * bottomY, textX - (Math.pow(1 - (t + 0.01), 2) * centerStrapX + 2 * (t + 0.01) * (1 - (t + 0.01)) * controlX + Math.pow(t + 0.01, 2) * centerStrapX)) * (180 / Math.PI);
+                return (
+                  <text
+                    key={letterIndex}
+                    x={textX}
+                    y={textY}
+                    textAnchor="middle"
+                    alignmentBaseline="middle"
+                    fontSize="22"
+                    fontWeight="900"
+                    fill="#0A0A0A"
+                    // fontFamily="Miniver, cursive"
+                    transform={`rotate(${angle}, ${textX}, ${textY})`}
+                    className="lanyard-name-text"
+                    style={{
+                      filter: 'drop-shadow(0 1px 2px #2228)',
+                      userSelect: 'none',
+                    }}
+                  >
+                    {letter}
+                  </text>
+                );
+              })}
+            </g>
+          ))}
         </svg>
         <div className="-mt-2 w-full flex justify-center">
           <IDCard onLinkClick={handleLinkClick} />
