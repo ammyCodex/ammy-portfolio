@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { useMediaQuery } from 'react-responsive';
 
 const BOARD_WIDTH = 30
 const BOARD_HEIGHT = 20
@@ -179,6 +180,100 @@ const SnakeGame = ({ onClose }) => {
     }
   }, [direction, gameOver, onClose, showInstructions, generateFood, showLoader, showThankYou])
 
+  // Add mobile detection
+  const isMobile = typeof window !== 'undefined' && (window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+
+  // Add touch handlers for mobile controls
+  const handleTouchMove = (dir) => {
+    if (showLoader || showThankYou || showInstructions || gameOver) return;
+    switch (dir) {
+      case 'up':
+        if (direction.y === 0) setDirection({ x: 0, y: -1 });
+        break;
+      case 'down':
+        if (direction.y === 0) setDirection({ x: 0, y: 1 });
+        break;
+      case 'left':
+        if (direction.x === 0) setDirection({ x: -1, y: 0 });
+        break;
+      case 'right':
+        if (direction.x === 0) setDirection({ x: 1, y: 0 });
+        break;
+      default:
+        break;
+    }
+  };
+  const handleTouchStart = (action) => {
+    if (showLoader) {
+      if (action === 'start') {
+        setShowLoader(false);
+        setGameOver(false);
+        setScore(0);
+        setSnake(INITIAL_SNAKE);
+        setDirection(INITIAL_DIRECTION);
+        setFood(generateFood());
+        setIsPaused(false);
+      }
+      if (action === 'exit') {
+        setShowThankYou(true);
+        setTimeout(() => onClose(), 900);
+      }
+      return;
+    }
+    if (showThankYou) {
+      if (action === 'start') {
+        setShowThankYou(false);
+        setShowLoader(true);
+      }
+      if (action === 'exit') {
+        setShowThankYou(false);
+        setShowLoader(true);
+      }
+      return;
+    }
+    if (showInstructions) {
+      if (action === 'start') {
+        setShowInstructions(false);
+        setGameOver(false);
+        setScore(0);
+        setSnake(INITIAL_SNAKE);
+        setDirection(INITIAL_DIRECTION);
+        setFood(generateFood());
+        setIsPaused(false);
+      }
+      if (action === 'exit') {
+        setShowThankYou(true);
+        setTimeout(() => onClose(), 900);
+      }
+      return;
+    }
+    if (gameOver) {
+      if (action === 'start') {
+        setShowInstructions(false);
+        setGameOver(false);
+        setScore(0);
+        setSnake(INITIAL_SNAKE);
+        setDirection(INITIAL_DIRECTION);
+        setFood(generateFood());
+        setIsPaused(false);
+      }
+      if (action === 'exit') {
+        setShowThankYou(true);
+        setTimeout(() => onClose(), 900);
+      }
+      return;
+    }
+    if (action === 'pause') {
+      setIsPaused(prev => !prev);
+      return;
+    }
+    if (action === 'exit') {
+      setShowThankYou(true);
+      setTimeout(() => onClose(), 900);
+      return;
+    }
+  };
+
   // Game loop
   useEffect(() => {
     const interval = setInterval(moveSnake, GAME_SPEED)
@@ -315,6 +410,32 @@ const SnakeGame = ({ onClose }) => {
             </div>
           )}
         </>
+      )}
+      {/* Add mobile controls if on mobile */}
+      {isMobile && !showLoader && !showThankYou && !showInstructions && !gameOver && (
+        <div className="snake-mobile-controls" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 16 }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8 }}>
+            <button className="snake-btn" style={{ width: 48, height: 48, margin: 4 }} onClick={() => handleTouchMove('up')}>⬆️</button>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <button className="snake-btn" style={{ width: 48, height: 48, margin: 4 }} onClick={() => handleTouchMove('left')}>⬅️</button>
+            <button className="snake-btn" style={{ width: 48, height: 48, margin: 4, background: '#222', color: '#fff' }} onClick={() => handleTouchStart('pause')}>{isPaused ? '▶️' : '⏸️'}</button>
+            <button className="snake-btn" style={{ width: 48, height: 48, margin: 4 }} onClick={() => handleTouchMove('right')}>➡️</button>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}>
+            <button className="snake-btn" style={{ width: 48, height: 48, margin: 4 }} onClick={() => handleTouchMove('down')}>⬇️</button>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}>
+            <button className="snake-btn" style={{ width: 80, height: 40, margin: 4, background: '#880808', color: '#fff', borderRadius: 8 }} onClick={() => handleTouchStart('exit')}>Exit</button>
+          </div>
+        </div>
+      )}
+      {/* Show start/exit on mobile for loader/instructions/gameover */}
+      {isMobile && (showLoader || showThankYou || showInstructions || gameOver) && (
+        <div className="snake-mobile-controls" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: 16 }}>
+          <button className="snake-btn" style={{ width: 80, height: 40, margin: 4, background: '#28CA42', color: '#fff', borderRadius: 8 }} onClick={() => handleTouchStart('start')}>Start</button>
+          <button className="snake-btn" style={{ width: 80, height: 40, margin: 4, background: '#880808', color: '#fff', borderRadius: 8 }} onClick={() => handleTouchStart('exit')}>Exit</button>
+        </div>
       )}
     </div>
   )

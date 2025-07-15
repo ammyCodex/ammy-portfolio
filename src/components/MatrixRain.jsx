@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 
+const isMobile = typeof window !== 'undefined' && (window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+
 const MatrixRain = ({ onClose }) => {
   const canvasRef = useRef(null)
   const [showLoader, setShowLoader] = useState(true)
@@ -96,6 +98,12 @@ const MatrixRain = ({ onClose }) => {
             Press <b>Enter</b> to start simulation<br/>
             Press <b>ESC</b> to exit
           </div>
+          {isMobile && (
+            <div style={{ marginTop: 24, display: 'flex', justifyContent: 'center', gap: 16 }}>
+              <button className="matrix-btn" style={{ padding: '10px 24px', background: '#28CA42', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 16 }} onClick={() => setShowLoader(false)}>Start</button>
+              <button className="matrix-btn" style={{ padding: '10px 24px', background: '#880808', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 16 }} onClick={onClose}>Exit</button>
+            </div>
+          )}
         </div>
       </div>
     )
@@ -110,6 +118,11 @@ const MatrixRain = ({ onClose }) => {
         <div className="text-red-300 text-sm">
           Press ESC to exit matrix mode
         </div>
+        {isMobile && (
+          <div style={{ marginTop: 12, display: 'flex', justifyContent: 'center' }}>
+            <button className="matrix-btn" style={{ padding: '8px 20px', background: '#880808', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 15 }} onClick={onClose}>Exit</button>
+          </div>
+        )}
       </div>
       <canvas
         ref={canvasRef}
