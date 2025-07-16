@@ -26,7 +26,6 @@ const Terminal = () => {
         background: 'rgba(10,10,10,0.55)',
         backdropFilter: 'blur(8px)',
         WebkitBackdropFilter: 'blur(8px)',
-        border: '1.5px solid #880808',
         boxShadow: '0 4px 32px #0008',
       }}
     >
