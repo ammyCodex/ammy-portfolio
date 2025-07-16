@@ -50,7 +50,7 @@ function useTypewriter(lines, delay = 32, lineDelay = 350) {
 
 export default function Preloader() {
   const [logoVisible, setLogoVisible] = useState(false)
-  const displayedLines = useTypewriter(bootLines, 22, 350)
+  const displayedLines = useTypewriter(bootLines, 2, 40)
   const [tildeOffset, setTildeOffset] = useState(0)
   const cardRef = useRef(null)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
@@ -59,10 +59,8 @@ export default function Preloader() {
   const [tiltPermissionAsked, setTiltPermissionAsked] = useState(false)
   const [tiltPermissionDenied, setTiltPermissionDenied] = useState(false)
 
-  // Responsive detection
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 600;
 
-  // Fade-in effect for mobile
   useEffect(() => {
     if (isMobile) {
       setFadeIn(false)
@@ -76,7 +74,6 @@ export default function Preloader() {
     return () => clearTimeout(logoTimer)
   }, [])
 
-  // Animate tilde pattern movement (no longer used, but keep for future)
   useEffect(() => {
     let raf
     let start = Date.now()
@@ -88,7 +85,6 @@ export default function Preloader() {
     return () => raf && cancelAnimationFrame(raf)
   }, [])
 
-  // Tilt effect: mouse for desktop, device orientation for mobile
   useEffect(() => {
     let orientationListener = null;
     let permissionAsked = false;
@@ -97,7 +93,6 @@ export default function Preloader() {
     let rafId = null;
 
     function smoothSetTilt(newX, newY) {
-      // Clamp and smooth
       const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
       lastX += (newX - lastX) * 0.2;
       lastY += (newY - lastY) * 0.2;
