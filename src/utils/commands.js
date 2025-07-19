@@ -1,3 +1,4 @@
+
 const getCurrentTime = () => {
   return new Date().toLocaleString('en-US', {
     weekday: 'long',
@@ -50,7 +51,7 @@ const createBanner = () => {
   ];
 };
 
-// console.log(createBanner().joins('\n'));
+// console.log(createBanner().join('\n'));
 
 const fileContents = {
   'languages.txt': [
@@ -264,7 +265,22 @@ const fileContents = {
     'Email: connect.amisha.usa@gmail.com',
     'LinkedIn: linkedin.com/in/ammycodex',
     'GitHub: github.com/ammycodex'
-  ]
+  ],
+  // Added readme.md content here for generic handling
+  'readme.md': [
+    "# Amisha Sharma - Full Stack Developer",
+    "",
+    "Hi there! 👋 I'm Amisha, a passionate full-stack developer",
+    "who loves building intelligent systems that solve real-world problems.",
+    "",
+    "## Quick Facts:",
+    "- 🔭 Currently working at Infosys as Specialist Programmer",
+    "- 🌱 Exploring AI/ML and Generative AI",
+    "- 💬 Ask me about Python, React, or NLP",
+    "- 📫 Reach me at: amishasharma0912@gmail.com",
+    "- ⚡ Fun fact: I love turning complex problems into simple solutions"
+  ],
+  tabRecommend: true
 }
 
 const commandRegistry = {
@@ -315,7 +331,8 @@ const commandRegistry = {
       '└── sleep <seconds>  : Delay output',
       '',
       'Sudo Commands:',
-      '├── sudo hire-amisha     : Download resume',
+      '├── sudo hire-amisha    : Download resume',
+      '├── sudo become-amisha  : Downloading... charisma.dll',
       '├── sudo make-me-laugh  : AI stand-up routine',
       '├── sudo mentor         : Get coding advice',
       '├── sudo matrix-rain    : Launch matrix rain effect',
@@ -351,7 +368,8 @@ const commandRegistry = {
         'sudo mentor', 
         'sudo matrix-rain',
         'sudo play-snake',
-        'sudo hire-amisha'
+        'sudo hire-amisha',
+        'sudo become-amisha'
       ]
     }
     
@@ -383,26 +401,9 @@ const commandRegistry = {
     clear: true
   }),
 
-  'cat README.md': () => ({
-    output: [
-      "# Amisha Sharma - Full Stack Developer",
-      "",
-      "Hi there! 👋 I'm Amisha, a passionate full-stack developer",
-      "who loves building intelligent systems that solve real-world problems.",
-      "",
-      "## Quick Facts:",
-      "- 🔭 Currently working at Infosys as Specialist Programmer",
-      "- 🌱 Exploring AI/ML and Generative AI",
-      "- 💬 Ask me about Python, React, or NLP",
-      "- 📫 Reach me at: amishasharma0912@gmail.com",
-      "- ⚡ Fun fact: I love turning complex problems into simple solutions"
-    ]
-  }),
-
   'touch contact.txt': () => ({
-  output: 'Contact file created.'
-}),
-    // Remove the hardcoded 'cat contact.txt' command from commandRegistry
+    output: 'Contact file created.'
+  }),
 
   fortune: async () => ({
     output: [await getAIResponse('Share a very short fortune cookie message.')]
@@ -412,7 +413,7 @@ const commandRegistry = {
     output: await getRandomJoke()
   }),
 
-  etch: () => ({
+  neofetch: () => ({
     output: [
       "                   -`                    amisha@portfolio",
       "                  .o+`                   -----------------",
@@ -425,7 +426,7 @@ const commandRegistry = {
       "           `/++++++++++++++:             Resolution: Problem Solver",
       "          `/+++ooooooooo+++/             DE: VS Code",
       "         ./ooosssso++osssssso+`          WM: Git",
-      "        .oossssso-````/ossssss+`         Theme: Dark Mode",
+      "        .oossssso-                       Theme: Dark Mode",
       "       -osssssso.      :ssssssso.        Icons: Lucide React",
       "      :osssssss/        osssso+++.       Terminal: Custom React",
       "     /ossssssss/        +ssssooo/-       CPU: Coffee-powered",
@@ -459,40 +460,40 @@ const commandRegistry = {
       "",
       "",
       "Languages:",
-      "  • Python (Advanced)",
-      "  • C/C++ (Advanced)",
-      "  • Bash, SQL (Intermediate)",
-      "  • JavaScript (Beginner)",
-      "  • React (Beginner)",
+      "  -  Python (Advanced)",
+      "  -  C/C++ (Advanced)",
+      "  -  Bash, SQL (Intermediate)",
+      "  -  JavaScript (Beginner)",
+      "  -  React (Beginner)",
       "  ",
       "",
       "AI Frameworks & Libraries:",
-      "  • PyTorch, TensorFlow, Keras",
-      "  • Scikit-learn, XGBoost, LightGBM",
-      "  • HuggingFace Transformers, LangChain, LangGraph",
-      "  • OpenAI, Azure OpenAI, Anthropic APIs",
+      "  -  PyTorch, TensorFlow, Keras",
+      "  -  Scikit-learn, XGBoost, LightGBM",
+      "  -  HuggingFace Transformers, LangChain, LangGraph",
+      "  -  OpenAI, Azure OpenAI, Anthropic APIs",
       "",
       "GenAI Tooling & Techniques:",
-      "  • Retrieval-Augmented Generation (RAG)",
-      "  • Prompt Engineering, Guardrails",
-      "  • Vector Databases: Pinecone, FAISS, Chroma",
-      "  • Multi-Agent Systems, Toolformer Concepts",
+      "  -  Retrieval-Augmented Generation (RAG)",
+      "  -  Prompt Engineering, Guardrails",
+      "  -  Vector Databases: Pinecone, FAISS, Chroma",
+      "  -  Multi-Agent Systems, Toolformer Concepts",
       "",
       "Data & Preprocessing Tools:",
-      "  • Pandas, NumPy, Dask",
-      "  • SpaCy, NLTK, OpenCV",
-      "  • Label Studio, Weights & Biases",
+      "  -  Pandas, NumPy, Dask",
+      "  -  SpaCy, NLTK, OpenCV",
+      "  -  Label Studio, Weights & Biases",
       "",
       "MLOps & Infrastructure:",
-      "  • Docker, FastAPI, MLflow",
-      "  • Git/GitHub, Linux, REST APIs",
-      "  • AWS Sagemaker, GCP Vertex AI",
+      "  -  Docker, FastAPI, MLflow",
+      "  -  Git/GitHub, Linux, REST APIs",
+      "  -  AWS Sagemaker, GCP Vertex AI",
       "",
       "Specializations:",
-      "  • Generative AI (LLMs, RAG, Agentic Workflows)",
-      "  • Natural Language Processing (NLP)",
-      "  • AI Threat Simulation & Red Teaming",
-      "  • Model Optimization & Deployment"
+      "  -  Generative AI (LLMs, RAG, Agentic Workflows)",
+      "  -  Natural Language Processing (NLP)",
+      "  -  AI Threat Simulation & Red Teaming",
+      "  -  Model Optimization & Deployment"
     ],
     newPath: '~/skills',
     tabRecommend: true
@@ -527,11 +528,11 @@ const commandRegistry = {
       "├── Features : Context-aware responses, sentiment analysis",
       "└── Impact   : 40% improvement in user engagement",
       "🎯 Commands:",
-      "• 'cat docai.txt' - Detailed DocAI project info",
-      "• 'cat querygenie.txt' - Detailed QueryGenie project info", 
-      "• 'cat portpulse.txt' - Detailed PortPulse project info",
-      "• 'cat chatbot.txt' - Detailed Chatbot project info",
-      "• 'open github' - View all projects on GitHub",
+      "-  'cat docai.txt' - Detailed DocAI project info",
+      "-  'cat querygenie.txt' - Detailed QueryGenie project info", 
+      "-  'cat portpulse.txt' - Detailed PortPulse project info",
+      "-  'cat chatbot.txt' - Detailed Chatbot project info",
+      "-  'open github' - View all projects on GitHub",
       "🌟 Explore more projects: https://github.com/ammyCodex"
     ],
     newPath: '~/projects',
@@ -560,9 +561,9 @@ const commandRegistry = {
       "└── Improved system performance by 30%",
       "",
       "Key Achievements:",
-      "• Published research paper in Springer",
-      "• Led team of 3 developers in chatbot project",
-      "• Mentored 5+ junior developers"
+      "-  Published research paper in Springer",
+      "-  Led team of 3 developers in chatbot project",
+      "-  Mentored 5+ junior developers"
     ],
     newPath: '~/experience',
     tabRecommend: true
@@ -590,14 +591,14 @@ const commandRegistry = {
       "   └── Project: E-commerce Web Application",
       "",
       "📚 Certifications:",
-      "• AWS Academy Cloud Foundations",
-      "• Introduction to Generative AI – Google Cloud",
-      "• Generative AI with LLMs – DeepLearning.AI",
-      "• LangChain for LLM Application Development – DeepLearning.AI",
-      "• Building Systems with the ChatGPT API – DeepLearning.AI",
-      "• Prompt Engineering for Developers – DeepLearning.AI",
-      "• Python (Basic) – HackerRank",
-      "• SQL (Basic) – HackerRank"
+      "-  AWS Academy Cloud Foundations",
+      "-  Introduction to Generative AI – Google Cloud",
+      "-  Generative AI with LLMs – DeepLearning.AI",
+      "-  LangChain for LLM Application Development – DeepLearning.AI",
+      "-  Building Systems with the ChatGPT API – DeepLearning.AI",
+      "-  Prompt Engineering for Developers – DeepLearning.AI",
+      "-  Python (Basic) – HackerRank",
+      "-  SQL (Basic) – HackerRank"
     ],
     newPath: '~/education',
     tabRecommend: true
@@ -643,7 +644,8 @@ const commandRegistry = {
       '├── sudo mentor        : Get coding advice',
       '├── sudo matrix-rain   : Launch matrix rain effect',
       '├── sudo play-snake    : Launch snake game',
-      '└── sudo hire-amisha   : Download resume',
+      '├── sudo hire-amisha   : Download resume',
+      '└── sudo become-amisha : Downloading... charisma.dll',
       '',
       'Type any command to execute it directly.'
     ],
@@ -660,16 +662,16 @@ const commandRegistry = {
       "technology and real-world solutions.",
       "",
       "🚀 What drives me:",
-      "   • Creating tools that simplify complex workflows",
-      "   • Exploring the intersection of AI and software engineering",
-      "   • Building scalable systems that make a difference",
-      "   • Contributing to open-source projects",
+      "   -  Creating tools that simplify complex workflows",
+      "   -  Exploring the intersection of AI and software engineering",
+      "   -  Building scalable systems that make a difference",
+      "   -  Contributing to open-source projects",
       "",
       "🎯 Current Focus:",
-      "   • Generative AI applications",
-      "   • Full-stack development with React & Python",
-      "   • Machine Learning model deployment",
-      "   • Network security research",
+      "   -  Generative AI applications",
+      "   -  Full-stack development with React & Python",
+      "   -  Machine Learning model deployment",
+      "   -  Network security research",
       "",
       "💡 Philosophy:",
       "   'Good code is like a good joke - it needs no explanation.'",
@@ -677,10 +679,10 @@ const commandRegistry = {
       "   real problems and creates value for users.",
       "",
       "🌟 When I'm not coding:",
-      "   • Reading tech blogs and research papers",
-      "   • Contributing to open-source projects",
-      "   • Learning new technologies",
-      "   • Mentoring aspiring developers"
+      "   -  Reading tech blogs and research papers",
+      "   -  Contributing to open-source projects",
+      "   -  Learning new technologies",
+      "   -  Mentoring aspiring developers"
     ],
     newPath: '~/about',
     tabRecommend: true
@@ -709,14 +711,27 @@ const commandRegistry = {
     downloadName: 'Amisha_Sharma_Resume.pdf',
     tabRecommend: true
   }),
+  'sudo become-amisha': () => ({
+    output: [
+      "🧠 Installing Amisha.sh...",
+      "⚙️ Loading skills: Python, NLP, Full-Stack Dev, AI...",
+      "🌟 Success! You are now 1% as awesome as Amisha 😄"
+    ],
+    downloadUrl: '/ammy-resume.pdf',
+    downloadName: 'Amisha_Sharma_Resume.pdf',
+    tabRecommend: true
+  }),
   'open resume': () => ({
-    output: ['You can view or download the resume here: ammy-resume.pdf']
+    output: ['You can view or download the resume here: ammy-resume.pdf'],
+    tabRecommend: true
   }),
   'download resume': () => ({
-    output: ['Downloading resume from /public/ammy-resume.pdf']
+    output: ['Downloading resume from /public/ammy-resume.pdf'],
+    tabRecommend: true
   }),
   'sudo download-resume': () => ({
-    output: ['Downloading resume from /public/ammy-resume.pdf']
+    output: ['Downloading resume from /public/ammy-resume.pdf'],
+    tabRecommend: true
   }),
   'open github': () => ({
     output: [
@@ -729,15 +744,16 @@ const commandRegistry = {
       "🔄 Contributions: Active",
       "",
       "🎯 Featured Repositories:",
-      "• DocAI - AI-Powered PDF Q&A System",
-      "• QueryGenie - Natural Language to SQL",
-      "• PortPulse - Real-time Port Scanner",
-      "• Interactive-Chatbot - NLP Chatbot",
+      "-  DocAI - AI-Powered PDF Q&A System",
+      "-  QueryGenie - Natural Language to SQL",
+      "-  PortPulse - Real-time Port Scanner",
+      "-  Interactive-Chatbot - NLP Chatbot",
       "",
       "🔗 Direct Link: https://github.com/ammyCodex",
       "Opening in new tab..."
     ],
-    openUrl: 'https://github.com/ammyCodex'
+    openUrl: 'https://github.com/ammyCodex',
+    tabRecommend: true
   }),
 
   'open resume': () => ({
@@ -775,7 +791,7 @@ const commandRegistry = {
   }),
 
   sleep: (currentPath, args) => {
-    const seconds = parseInt(args[0]) || 2
+    const seconds = parseInt(args) || 2
     return {
       output: [`Sleeping for ${seconds} seconds...`],
       delay: seconds * 1000,
@@ -783,10 +799,12 @@ const commandRegistry = {
     }
   },
   'sudo make-me-laugh': async () => ({
-    output: await getRandomJoke()
+    output: await getRandomJoke(),
+    tabRecommend: true
   }),
   'sudo mentor': async () => ({
-    output: [await getAIResponse('Give me a brief, one-sentence piece of coding advice.')]
+    output: [await getAIResponse('Give me a brief, one-sentence piece of coding advice.')],
+    tabRecommend: true
   }),
   'sudo matrix-rain': () => ({
     output: [
@@ -795,22 +813,26 @@ const commandRegistry = {
       '01001000 01100001 01100011 01101011 01100101 01110010 00100000 01101101 01101111 01100100 01100101 00100001\n',
       'Matrix rain effect activated...'
     ],
-    launchGame: 'matrix'
+    launchGame: 'matrix',
+    tabRecommend: true
   }),
 
   'sudo play-snake': () => ({
     output: [],
-    launchGame: 'snake'
+    launchGame: 'snake',
+    tabRecommend: true
   }),
-  // Add generic cat command for .txt files
+
   ...Object.fromEntries([
     ['cat', (currentPath, args) => {
-      const filename = args[0]
-      if (!filename || !filename.endsWith('.txt')) {
-        return { output: ['cat: Please specify a .txt file to read.'] }
+      const filename = args.join(' ').trim().toLowerCase();
+      if (!filename) {
+        return { output: ['cat: Please specify a file to read.'] };
+      }
+      if (!filename.endsWith('.txt') && !filename.endsWith('.md')) {
+        return { output: ['cat: Please specify a .txt or .md file to read.'] };
       }
       if (fileContents[filename]) {
-        // Add visual feedback for file reading
         return { 
           output: [
             `📁 Reading file: ${filename}`,
@@ -820,9 +842,9 @@ const commandRegistry = {
             ...fileContents[filename]
           ],
           tabRecommend: true
-        }
+        };
       }
-      return { output: [`cat: ${filename}: No such file or not readable.`] }
+      return { output: [`cat: ${filename}: No such file or not readable.`] };
     }]
   ]),
   ':q': () => ({
@@ -832,12 +854,13 @@ const commandRegistry = {
 }
 
 export const executeCommand = (input, currentPath) => {
-  const [command, ...args] = input.toLowerCase().split(' ');
+  const loweredInput = input.toLowerCase().trim(); // Added trim() to handle leading/trailing spaces in full input
+  const [command, ...args] = loweredInput.split(' ');
 
   // Support: sleep <seconds> <any command>
-  if (command === 'sleep' && args.length > 0 && !isNaN(Number(args[0])) && args.length > 1) {
-    const seconds = parseInt(args[0]) || 2;
-    const restCommand = input.split(' ').slice(2).join(' ');
+  if (command === 'sleep' && args.length > 0 && !isNaN(Number(args)) && args.length > 1) {
+    const seconds = parseInt(args) || 2;
+    const restCommand = args.slice(1).join(' ');
     return {
       output: [`Sleeping for ${seconds} seconds...`],
       delay: seconds * 1000,
@@ -856,8 +879,9 @@ export const executeCommand = (input, currentPath) => {
     };
   }
 
-  if (commandRegistry[input.toLowerCase()]) {
-    return commandRegistry[input.toLowerCase()](currentPath, args);
+  // Check for exact full command match (lowered and trimmed)
+  if (commandRegistry[loweredInput]) {
+    return commandRegistry[loweredInput](currentPath, args);
   }
 
   // Handle generic 'cat <filename>' command
@@ -876,6 +900,6 @@ export const executeCommand = (input, currentPath) => {
 export const getAvailableCommands = () => [
   'help', 'ls', 'cd skills', 'cd projects', 'cd experience', 'cd education', 'cd publications', 'cd about', 'cd ..', 'pwd',
   'whoami', 'date', 'clear',
-  'sudo hire-amisha', 'ammy', 'fortune', 'neofetch', 'open resume', 'open github', 'sleep 1', 'sleep 2', 'sleep 3', 'joke',
+  'sudo hire-amisha', 'udo become-amisha', 'ammy', 'fortune', 'neofetch', 'open resume', 'open github', 'sleep 1', 'sleep 2', 'sleep 3', 'joke',
   'sudo make-me-laugh', 'sudo mentor', 'sudo matrix-rain', 'sudo play-snake'
 ];
