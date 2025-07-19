@@ -714,11 +714,13 @@ const commandRegistry = {
   'sudo become-amisha': () => ({
     output: [
       "🧠 Installing Amisha.sh...",
+      '👩‍💻 Attempting transformation...',
+      '🔁 Cloning full-stack DNA...',
+      '💡 Injecting intelligence...',
       "⚙️ Loading skills: Python, NLP, Full-Stack Dev, AI...",
+      '✅ Transformation complete!',
       "🌟 Success! You are now 1% as awesome as Amisha 😄"
     ],
-    downloadUrl: '/ammy-resume.pdf',
-    downloadName: 'Amisha_Sharma_Resume.pdf',
     tabRecommend: true
   }),
   'open resume': () => ({
@@ -900,6 +902,6 @@ export const executeCommand = (input, currentPath) => {
 export const getAvailableCommands = () => [
   'help', 'ls', 'cd skills', 'cd projects', 'cd experience', 'cd education', 'cd publications', 'cd about', 'cd ..', 'pwd',
   'whoami', 'date', 'clear',
-  'sudo hire-amisha', 'udo become-amisha', 'ammy', 'fortune', 'neofetch', 'open resume', 'open github', 'sleep 1', 'sleep 2', 'sleep 3', 'joke',
+  'sudo hire-amisha', 'sudo become-amisha', 'ammy', 'fortune', 'neofetch', 'open resume', 'open github', 'sleep 1', 'sleep 2', 'sleep 3', 'joke',
   'sudo make-me-laugh', 'sudo mentor', 'sudo matrix-rain', 'sudo play-snake'
 ];
