@@ -426,7 +426,7 @@ const commandRegistry = {
       "           `/++++++++++++++:             Resolution: Problem Solver",
       "          `/+++ooooooooo+++/             DE: VS Code",
       "         ./ooosssso++osssssso+`          WM: Git",
-      "        .oossssso-                       Theme: Dark Mode",
+      "        .oossssso-    `/ossssss+`        Theme: Dark Mode",
       "       -osssssso.      :ssssssso.        Icons: Lucide React",
       "      :osssssss/        osssso+++.       Terminal: Custom React",
       "     /ossssssss/        +ssssooo/-       CPU: Coffee-powered",
