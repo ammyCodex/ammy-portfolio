@@ -20,7 +20,14 @@ const IDCard = () => {
   return (
     <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md rounded-2xl bg-[#181818] shadow-xl border border-[#222] mx-auto px-2 sm:px-0">
       <div className="relative w-full aspect-[4/3] rounded-t-2xl overflow-hidden">
-        <img src={PROFILE_IMG} alt="Profile" className="object-cover w-full h-full bg-black rounded-t-2xl" style={{ objectPosition: 'center 40%' }} />
+        <img 
+          src={PROFILE_IMG} 
+          alt="Profile" 
+          className="object-cover w-full h-full bg-black rounded-t-2xl select-none" 
+          style={{ objectPosition: 'center 40%' }} 
+          draggable={false}
+          onContextMenu={(e) => e.preventDefault()}
+        />
         <span className="absolute top-2 right-2 bg-[#222] text-xs text-gray-200 px-3 py-1 rounded-full shadow-md z-20">ID: DEV-2025</span>
       </div>
       <div className="flex flex-col justify-between p-3 sm:p-4 md:p-5 text-white">
