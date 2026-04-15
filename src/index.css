@@ -10,10 +10,35 @@
   body {
     margin: 0;
     font-family: 'Fira Code', 'JetBrains Mono', Monaco, Consolas, monospace;
-    background-color: #0A0A0A;
-    color: #FFF9E5;
+    background-color: #070b14;
+    color: #e2e8f0;
     overflow-x: hidden;
   }
+}
+
+.app-shell {
+  position: relative;
+  background:
+    radial-gradient(ellipse 100% 60% at 50% 100%, rgba(34, 211, 238, 0.07), transparent 50%),
+    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(34, 211, 238, 0.14), transparent 55%),
+    radial-gradient(ellipse 80% 60% at 100% 50%, rgba(232, 121, 249, 0.08), transparent 45%),
+    radial-gradient(ellipse 50% 40% at 0% 80%, rgba(52, 211, 153, 0.05), transparent 42%),
+    linear-gradient(180deg, #050a12 0%, #030712 55%, #020617 100%);
+  background-attachment: fixed;
+}
+
+.app-shell::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 45%, black 20%, transparent 70%);
 }
 
 /* Improved responsive behavior for Windows */
@@ -62,16 +87,16 @@
 }
 
 .terminal-output::-webkit-scrollbar-track {
-  background: #0A0A0A;
+  background: #070b14;
 }
 
 .terminal-output::-webkit-scrollbar-thumb {
-  background: #880808;
+  background: rgba(34, 211, 238, 0.35);
   border-radius: 4px;
 }
 
 .terminal-output::-webkit-scrollbar-thumb:hover {
-  background: #aa0a0a;
+  background: rgba(34, 211, 238, 0.55);
 }
 
 /* Improved responsive stacking for main layout */

@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import IDCard from './IDCard'
 import { motion, useAnimation, useMotionValue, useSpring } from 'framer-motion'
 
-const LANYARD_COLOR = '#880808'
+const LANYARD_COLOR = '#22d3ee'
 const LANYARD_WIDTH = 52
 const BASE_LANYARD_HEIGHT = 240
 const BASE_MARGIN_TOP = -180
@@ -114,7 +114,7 @@ const Lanyard = () => {
                     alignmentBaseline="middle"
                     fontSize={fontSize}
                     fontWeight="900"
-                    fill="#0A0A0A"
+                    fill="#020617"
                     fontFamily="Montserrat, sans-serif"
                     transform={`rotate(${angle}, ${textX}, ${textY})`}
                     className="lanyard-name-text"

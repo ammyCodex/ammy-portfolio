@@ -40,6 +40,69 @@ const getRandomJoke = async () => {
   }
 }
 
+const AI_DEV_SNIPPETS = [
+  'Prefer observable metrics over vibes when shipping models.',
+  'Start with a tight eval harness, then iterate on the model.',
+  'Chunk semantically for RAG—not only by character count.',
+  'Version your prompts like APIs: document assumptions and defaults.',
+  'Cache embeddings where safe; latency and cost both improve.'
+]
+
+const getAIResponse = async () =>
+  AI_DEV_SNIPPETS[Math.floor(Math.random() * AI_DEV_SNIPPETS.length)]
+
+const formatCowsay = (raw) => {
+  const msg = (raw || 'moo').slice(0, 42)
+  const top = ` ${'_'.repeat(Math.min(msg.length + 2, 44))} `
+  const bot = ` ${'-'.repeat(Math.min(msg.length + 2, 44))} `
+  return [
+    top,
+    `< ${msg} >`,
+    bot,
+    '        \\   ^__^',
+    '         \\  (oo)\\_______',
+    '            (__)\\       )\\/\\',
+    '                ||----w |',
+    '                ||     ||'
+  ]
+}
+
+const rigIdentity = () => {
+  const first = ['Ada', 'Grace', 'Margaret', 'Katherine', 'Frances'][Math.floor(Math.random() * 5)]
+  const last = ['Lovelace', 'Hopper', 'Hamilton', 'Johnson', 'Spence'][Math.floor(Math.random() * 5)]
+  return [
+    'rig: synthetic persona (not PII — unix nostalgia)',
+    `${first} ${last}`,
+    '742 Evergreen Terrace, /dev/zero',
+    'Phone: 555-01337',
+    ''
+  ]
+}
+
+const fakeDf = () => ({
+  output: [
+    'Filesystem       Size  Used Avail Use% Mounted on',
+    '/dev/brain0      1.8T  612G  1.1T  37%  /',
+    'tmpfs             64G   12G   52G  19%  /dev/shm',
+    '/dev/nvme0n1p2   932G  818G   67G  93%  /datasets',
+    'overlay           16G   16G     0 100%  /var/lib/docker/ai-stuff',
+    '',
+    'Tip: when /datasets hits 100%, it is scientifically time to delete old checkpoints.'
+  ],
+  tabRecommend: true
+})
+
+const fakeFree = () => ({
+  output: [
+    '               total        used        free      shared  buff/cache   available',
+    'Mem:           125Gi        98Gi       4.0Gi       2.1Gi        23Gi        24Gi',
+    'Swap:          8.0Gi       102Mi       7.9Gi',
+    '',
+    '* includes attention weights accidentally resident in RAM'
+  ],
+  tabRecommend: true
+})
+
 const createBanner = () => {
   return [
     "    █████╗       ███╗   ███╗      ███╗   ███╗       ██╗   ██╗   ",
@@ -58,139 +121,135 @@ const fileContents = {
     "Programming Languages",
     "================",
     "",
-    "• Python (Advanced) - ML, AI, Web Development",
-    "• C/C++ (Advanced) - System Programming, Algorithms",
-    "• JavaScript (Intermediate) - Frontend Development",
-    "• SQL (Intermediate) - Database Management",
-    "• Bash (Intermediate) - Scripting & Automation"
+    "• Python — primary language for GenAI services, APIs, and ML pipelines",
+    "• C / C++ — performance-sensitive components and algorithms",
+    "• SQL — relational analytics (MySQL and similar)",
+    "• JavaScript / TypeScript — dashboards and product UI (e.g. Next.js)"
   ],
   'frameworks.txt': [
-    "Frameworks & Libraries",
-    "===================",
+    "Frameworks & AI stack",
+    "====================",
     "",
-    "• Flask, Django - Web Development",
-    "• React, Streamlit - Frontend & UI",
-    "• PyTorch, TensorFlow - Machine Learning",
-    "• Pandas, NumPy - Data Processing",
-    "• Scikit-learn - ML Algorithms"
+    "• Flask, Django — backend APIs and enterprise integrations",
+    "• Streamlit — rapid ML/GenAI demos and internal tools",
+    "• LangChain — RAG, tool use, and LLM orchestration",
+    "• Scikit-learn, Keras — classical ML and neural baselines",
+    "• Next.js, React — role-based analytics and operator dashboards"
   ],
   'tools.txt': [
-    "Development Tools",
-    "===============",
+    "Platforms & MLOps",
+    "================",
     "",
-    "• Git/GitHub - Version Control",
-    "• Docker - Containerization",
-    "• Linux - System Administration",
-    "• JIRA - Project Management",
-    "• AWS/GCP - Cloud Platforms"
+    "• Git, GitHub, Linux, Docker — delivery and reproducibility",
+    "• REST APIs, AI inference pipelines, semantic / vector search",
+    "• Vector DBs & retrieval: FAISS, Pinecone-class patterns",
+    "• JIRA, Agile — delivery with cross-functional teams",
+    "• Azure OpenAI, cloud ML platforms (AWS/GCP family)"
+  ],
+  'lab-notes.txt': [
+    "Lab notebook — scratch",
+    "===================",
+    "",
+    "e^(i*pi) + 1 = 0   // Euler says hi",
+    "rank(T) <= min(m,n)  // tensors, not hype",
+    "loss ↻ when learning_rate > curiosity_budget",
+    "",
+    "Sticker ideas:",
+    "  [ ] my other car is a weight matrix",
+    "  [x] I read the CUDA errata for fun",
+    "",
+    "Last weird bug: NaN gradients because someone logged softmax across batch dim. Again."
+  ],
+  'capgemini.txt': [
+    "Capgemini — Bellevue, WA",
+    "Role: Associate Data Scientist",
+    "Duration: Mar 2026 – Present",
+    "",
+    "Highlights:",
+    "• Architected an AI usage analytics platform across adoption, cost, and productivity for 2,800+ users.",
+    "• Designed role-based dashboards (Next.js, TypeScript) so leaders see license and usage insights—reported ~40% better visibility.",
+    "• Operationalized an LLM-powered assistant for role-aware insights, cutting manual analysis workload by about 30%."
   ],
   'infosys.txt': [
-    "🏢 Infosys Limited",
+    "Infosys Limited",
     "Role: Specialist Programmer",
-    "Duration: November 2024 – Present",
+    "Duration: Nov 2024 – Feb 2026",
     "",
-    "Key Responsibilities:",
-    "• Developed and deployed ML models for return prediction with 87% accuracy, improving forecasting capabilities",
-    "• Designed an LLM-based HR automation tool to streamline candidate screening and communication",
-    "• Built a real-time ticketing system with AI-powered ticket categorization and prioritization",
-    "• Applied NLP techniques for automated email parsing and sentiment analysis, enhancing customer support workflows",
-    "• Worked on Generative AI projects involving LangChain, knowledge graphs, and multi-agent decision processes (MCP)",
-    "• Utilized Docker and cloud platforms to deploy AI models efficiently"
-  ],
-  'ratna-sagar.txt': [
-    "🏢 Ratna Sagar Pvt Ltd",
-    "Role: Trainee Developer",
-    "Duration: June 2024 – November 2024",
-    "",
-    "Key Responsibilities:",
-    "• Developed an NLP-powered chatbot to enhance student engagement and automate FAQs",
-    "• Digitized and integrated educational content into LMS using AI-based content tagging",
-    "• Implemented interactive features that boosted user engagement by 25%",
-    "• Optimized system performance, reducing latency by 30%"
+    "Highlights:",
+    "• Delivered an AI-driven contract intelligence platform using RAG and vector embeddings for clause detection and risk scoring—~35% less manual document review.",
+    "• Built high-throughput Flask REST APIs for real-time inference and ticket automation, improving backend throughput ~30%.",
+    "• Led a multi-agent workforce allocation system across 100+ roles, reducing bench time by up to ~70%.",
+    "• Raised LLM answer quality via prompt optimization and vector search pipelines for enterprise document retrieval."
   ],
   'masters.txt': [
-    "🏫 Master of Science (M.Sc.) in Computer Science",
+    "Master of Computer Science",
     "University: Sharda University",
-    "Duration: 2022 – 2024",
+    "Duration: Aug 2022 – Jul 2024",
     "",
-    "Specialization: Software Development & AI",
+    "Focus: Software engineering, AI/ML, and security-oriented research",
     "CGPA: 9.075 / 10",
-    "Key Courses: Machine Learning, Data Structures, Software Engineering, AI/ML, NLP, LLMs, RAG, Prompt Engineering, LangChain, Docker, FastAPI, Git/GitHub, Linux, REST APIs, Cloud Platforms (AWS/GCP)",
+    "Key themes: ML, NLP, LLMs, RAG, prompt engineering, LangChain, Docker, FastAPI, cloud (AWS/GCP), REST APIs",
     "Thesis: Optimization of Network Mapping for Intrusion Detection"
   ],
   'bachelors.txt': [
-    "🏫 Bachelor of Science (B.Sc.) in Computer Science",
+    "Bachelor of Computer Science",
     "University: DAV University",
-    "Duration: 2019 – 2022",
+    "Duration: Aug 2019 – Jul 2022",
     "",
     "Major: Computer Science",
     "CGPA: 7.4 / 10",
-    "Key Courses: Programming, Database Systems, Web Development",
-    "Project: E-commerce Web Application"
+    "Foundations: programming, database systems, web development",
+    "Capstone: E-commerce web application"
   ],
   'docai.txt': [
-    "🤖 DocAI - AI-Powered PDF Q&A System",
+    "DocAI — AI document intelligence",
     "═══════════════════════════════════════════════════════════════════════════════",
     "",
-    "📋 Project Overview:",
-    "Lightweight Streamlit application that allows you to upload documents and ask",
-    "questions about their content using Cohere API for natural language processing.",
+    "Overview:",
+    "LLM-driven document Q&A over long PDFs with semantic chunking and embedding retrieval.",
     "",
-    "🛠️  Technology Stack:",
-    "• Streamlit - Web application framework",
-    "• Cohere API - Natural language processing",
-    "• Python - Core programming language",
-    "• PyPDF2/pdfplumber - PDF parsing",
-    "• dotenv/streamlit.secrets - API key management",
+    "Stack:",
+    "• Streamlit, Python, LangChain, Azure OpenAI",
+    "• Semantic chunking, contextual retrieval, summarization",
     "",
-    "⚡ Key Features:",
-    "• Upload PDFs or text files for analysis",
-    "• Ask natural language questions about content",
-    "• Fast and contextual answers using Cohere",
-    "• Dark mode Streamlit UI",
-    "• Secure secrets management for API keys",
-    "• Support for multiple document formats",
+    "Outcomes (resume):",
+    "• Handles 100+ page PDFs with strong answer accuracy (~92% in internal evals)",
     "",
-    "📈 Impact & Results:",
-    "• 95% accuracy in document question-answering",
-    "• 80% faster document analysis compared to manual review",
-    "• Support for 100+ page documents efficiently",
-    "• 1000+ documents processed successfully",
-    "",
-    "🔗 GitHub: https://github.com/ammyCodex/DocAI",
-    "🌐 Live Demo: https://ammy-docai.streamlit.app/"
+    "Links:",
+    "• GitHub: https://github.com/ammyCodex/DocAI",
+    "• Live: https://ammy-docai.streamlit.app/"
   ],
   'querygenie.txt': [
-    "🔍 QueryGenie - Natural Language to SQL",
+    "QueryGenie — natural language to SQL",
     "═══════════════════════════════════════════════════════════════════════════════",
     "",
-    "📋 Project Overview:",
-    "Streamlit-based AI-powered SQLite assistant that lets you upload databases",
-    "and interact with them using natural language queries.",
+    "Overview:",
+    "LLM-powered NL→SQLite engine with schema-aware prompts and safe read paths.",
     "",
-    "🛠️  Technology Stack:",
-    "• Streamlit - Web application framework",
-    "• Cohere API - Natural language processing",
-    "• SQLite - Database management",
-    "• Pandas - Data manipulation",
-    "• SQLParse - SQL parsing and validation",
+    "Stack:",
+    "• Streamlit, Cohere (or comparable LLM), SQLite, Pandas, SQLParse",
     "",
-    "⚡ Key Features:",
-    "• Upload SQLite .sqlite or .db files for instant access",
-    "• Natural language to SQL generation powered by Cohere's LLM",
-    "• Read-only query execution with safety blocks",
-    "• Modern dark-themed chat UI with timestamps",
-    "• Automatic schema detection and foreign key display",
-    "• Interactive chat interface with query history",
+    "Outcomes (resume):",
+    "• ~95% syntactic accuracy on generated SQL in benchmarks",
+    "• Real-time querying via secure backend APIs",
     "",
-    "📈 Impact & Results:",
-    "• 95% syntactic accuracy in SQL generation",
-    "• 90% reduction in SQL learning time for non-technical users",
-    "• 1000+ queries processed successfully",
-    "• Support for 50+ different database schemas",
+    "Links:",
+    "• GitHub: https://github.com/ammyCodex/QueryGenie",
+    "• Live: https://ammy-querygenie.streamlit.app/"
+  ],
+  'clauzetta.txt': [
+    "Clauzetta — AI contract intelligence",
+    "═══════════════════════════════════════════════════════════════════════════════",
     "",
-    "🔗 GitHub: https://github.com/ammyCodex/QueryGenie",
-    "🌐 Live Demo: https://ammy-querygenie.streamlit.app/"
+    "Overview:",
+    "Contract analytics with LLMs, RAG pipelines, and FAISS vector search for clause extraction and compliance signals.",
+    "",
+    "Architecture:",
+    "• Hybrid retrieval: vector similarity + keyword ranking for sharper answers",
+    "",
+    "Links:",
+    "• Portfolio GitHub hub: https://github.com/ammyCodex",
+    "• (Add repo + demo URLs when you publish the project page.)"
   ],
   'portpulse.txt': [
     "🛡️  PortPulse - AI-Powered TCP Port Scanner",
@@ -260,25 +319,25 @@ const fileContents = {
   ],
   'contact.txt': [
     'Name: Amisha Sharma',
-    'Location: Las Vegas, Nevada',
+    'Location: 6296 Brave Voyager CT, Las Vegas, NV 89139',
     'Phone: +1 (702) 403-3543',
     'Email: connect.amisha.usa@gmail.com',
     'LinkedIn: linkedin.com/in/ammycodex',
-    'GitHub: github.com/ammycodex'
+    'GitHub: github.com/ammycodex',
+    'LeetCode / Codeforces / Portfolio: see ID card links'
   ],
   // Added readme.md content here for generic handling
   'readme.md': [
-    "# Amisha Sharma - Full Stack Developer",
+    "# Amisha Sharma — Generative AI Engineer",
     "",
-    "Hi there! 👋 I'm Amisha, a passionate full-stack developer",
-    "who loves building intelligent systems that solve real-world problems.",
+    "I design and ship production-grade systems around LLMs, RAG, semantic retrieval,",
+    "and vector search—plus the Flask/FastAPI services and dashboards that make them usable.",
     "",
-    "## Quick Facts:",
-    "- 🔭 Currently working at Infosys as Specialist Programmer",
-    "- 🌱 Exploring AI/ML and Generative AI",
-    "- 💬 Ask me about Python, React, or NLP",
-    "- 📫 Reach me at: amishasharma0912@gmail.com",
-    "- ⚡ Fun fact: I love turning complex problems into simple solutions"
+    "## Quick facts:",
+    "- Now: Associate Data Scientist @ Capgemini (Bellevue, WA)",
+    "- Previously: Specialist Programmer @ Infosys (GenAI / contracts / allocation)",
+    "- Stack bias: Python, LangChain, Azure OpenAI, Next.js, Docker, Linux",
+    "- Contact: connect.amisha.usa@gmail.com"
   ],
   tabRecommend: true
 }
@@ -286,13 +345,14 @@ const fileContents = {
 const commandRegistry = {
   welcome: () => ({
     output: [
-      "Welcome to <span style='color: #880808;'>Amisha's Portfolio Terminal!</span> 🚀",
+      "Welcome to <span style='color:#22d3ee;font-weight:600;'>tensor-core</span> — Amisha's <span style='color:#e879f9;'>GenAI</span> portfolio shell.",
       "",
-      "Navigate my skills, projects, experience, and more.",
-      "Play <span style='color: #880808;'>games</span>, get jokes, <span style='color: #880808;'>AI advice</span>, or download my resume.",
-      "Use <span style='color: #880808;'>'ls'</span> to list directories or <span style='color: #880808;'>'cd &lt;dir&gt;'</span> to navigate.",
+      "Model weights not included; <span style='color:#22d3ee'>skills</span>, <span style='color:#22d3ee'>projects</span>, and <span style='color:#22d3ee'>experience</span> are on disk.",
+      "Try <span style='color:#e879f9'>games</span>, <span style='color:#e879f9'>fortune</span> / <span style='color:#e879f9'>sudo mentor</span>, or <span style='color:#22d3ee'>sudo hire-amisha</span> for the PDF résumé.",
+      "Geek knobs: <span style='color:#22d3ee'>uname -a</span> · <span style='color:#22d3ee'>nvidia-smi</span> · <span style='color:#22d3ee'>htop</span> · <span style='color:#22d3ee'>cowsay hello</span> · <span style='color:#22d3ee'>man portfolio</span>",
+      "Use <span style='color:#22d3ee'>'ls'</span> and <span style='color:#22d3ee'>'cd &lt;dir&gt;'</span> like a real workspace.",
       "",
-      "Type <span style='color: #880808;'>'help'</span> for all commands.",
+      "Type <span style='color:#22d3ee'>'help'</span> for the command table.",
       ""
     ]
   }),
@@ -330,6 +390,26 @@ const commandRegistry = {
       '├── open resume      : Open resume',
       '└── sleep <seconds>  : Delay output',
       '',
+      'Unix cosplay (fake but fun):',
+      '├── uname / uname -a : Kernel string',
+      '├── uptime           : Load averages + uptime',
+      '├── df / df -h       : Disk layout',
+      '├── free / free -h   : RAM / swap joke',
+      '├── env              : “Environment” variables',
+      '├── dmesg            : Kernel ring buffer snippets',
+      '├── htop             : ASCII process “viewer”',
+      '├── lspci            : PCI devices (fiction)',
+      '├── nvidia-smi       : GPU status (fiction)',
+      '├── id / w           : Identity / who is logged in',
+      '├── rig              : Random identity (BSD rig)',
+      '├── cowsay <msg>     : ASCII cow wrapper',
+      '├── hexdump          : Hex view of a secret string',
+      '├── history          : Fake shell history',
+      '├── sysctl ai        : One tunable knob',
+      '├── man portfolio    : Manual page for this shell',
+      '├── ping …           : ICMP-ish localhost (try ping -c 1 127.0.0.1)',
+      '└── alias            : Fake shell aliases',
+      '',
       'Sudo Commands:',
       '├── sudo hire-amisha    : Download resume',
       '├── sudo become-amisha  : Downloading... charisma.dll',
@@ -354,12 +434,13 @@ const commandRegistry = {
         'publications/',
         'about/',
         'README.md',
+        'lab-notes.txt',
         'contact.txt',
         'sudo-commands/'
       ],
       '~/skills': ['languages.txt', 'frameworks.txt', 'tools.txt'],
-      '~/projects': ['docai/', 'querygenie/', 'portpulse/', 'README.md'],
-      '~/experience': ['infosys.txt', 'ratna-sagar.txt'],
+      '~/projects': ['docai/', 'querygenie/', 'clauzetta/', 'portpulse/', 'README.md'],
+      '~/experience': ['capgemini.txt', 'infosys.txt'],
       '~/education': ['masters.txt', 'bachelors.txt'],
       '~/publications': ['springer-2024.pdf', 'research-notes.txt'],
       '~/about': ['bio.txt', 'interests.txt', 'goals.txt'],
@@ -413,24 +494,223 @@ const commandRegistry = {
     output: await getRandomJoke()
   }),
 
+  uname: () => ({
+    output: ['Linux']
+  }),
+
+  'uname -a': () => ({
+    output: [
+      'Linux tensor-core 6.12.14-geneal #1 SMP PREEMPT_DYNAMIC portfolio ttyJS',
+      'x86_64 x86_64 x86_64 GNU/Linux',
+      '',
+      '// “geneal” kernel: generalization bound included in .config'
+    ],
+    tabRecommend: true
+  }),
+
+  uptime: () => ({
+    output: [
+      `${getCurrentTime()} up 428 days,  3:14,  1 user,  load average: 0.41, 0.19, 0.08`,
+      '',
+      'Notes:',
+      '• load average is suspiciously low because half the jobs are waiting on GPU',
+      '• token throughput: ask your provider’s rate limit, not this shell'
+    ],
+    tabRecommend: true
+  }),
+
+  df: fakeDf,
+
+  'df -h': fakeDf,
+
+  free: fakeFree,
+
+  'free -h': fakeFree,
+
+  env: () => ({
+    output: [
+      'SHELL=/bin/bash',
+      'TERM=xterm-256color',
+      'USER=amisha',
+      'HOME=/home/amisha',
+      'PATH=/usr/local/cuda/bin:/opt/conda/bin:~/bin:/usr/bin:/bin',
+      'HF_HOME=/home/amisha/.cache/huggingface',
+      'TRANSFORMERS_VERBOSITY=error',
+      'PYTHONHASHSEED=random',
+      'OPENAI_API_KEY=sk-••••••••REDACTED',
+      'AZURE_OPENAI_ENDPOINT=https://eastus.api.cognitive.microsoft.com/…',
+      'CUDA_VISIBLE_DEVICES=0',
+      'OMP_NUM_THREADS=8',
+      'LC_TELEMETRY=off',
+      'PORTFOLIO_MODE=inference_ready'
+    ],
+    tabRecommend: true
+  }),
+
+  dmesg: () => ({
+    output: [
+      '[    0.000000] Linux version 6.12.14-geneal (portfolio@tensor-core)',
+      '[    2.718281] ACPI: TPM2 found — trusting hardware more than prompts',
+      '[   12.345678] nvme nvme0: 2^N queues; queue depth set to “yes”',
+      '[   42.000000] random: crng init done (entropy from unread arXiv tabs)',
+      '[  133.713370] attention_block: considered OOM; negotiated with scheduler',
+      '[  256.000000] docker0: bridge is up; impostor syndrome still attached',
+      '[  512.512512] WARNING: GIL spotted in the wild (python3, PID familiar)'
+    ],
+    tabRecommend: true
+  }),
+
+  htop: () => ({
+    output: [
+      '  CPU[||||||||||||||||||||||||||||||||||||||||||||||||||||||   78.2%]   Tasks: 42, 128 thr; 1 running',
+      '  Mem[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 98.1G/125G]',
+      '  Swp[|                                                            0.1G/8G]',
+      '',
+      '    PID USER      PRI  NI  VIRT   RES   SHR S  CPU% MEM%   TIME+  COMMAND',
+      '  1337 amisha     20   0  82.4g  71.2g  12.3g R 412.  56.8  14:02:11 python3 train.py',
+      '  9001 root       20   0  12.1g  11.0g  512m S  12.3  8.8   2:22:01 embedding_server',
+      '  4040 amisha     20   0   2.1g  1.8g  128m S   3.1  1.4   0:41:12 node bundle.js',
+      '  7    nobody     20   0  128m  12m   8m  S   0.0  0.0   0:00:01 [ksoftirqd/0]',
+      '',
+      'F1Help  F2Setup F3Search F4Filter F5Tree F6SortBy F7Nice - F8Nice + F9Kill'
+    ],
+    tabRecommend: true
+  }),
+
+  lspci: () => ({
+    output: [
+      '00:00.0 Host bridge: Synthetic Intel “ThinkBridge” 2000 (rev 02)',
+      '00:02.0 VGA compatible controller: Imaginary RTX 5090 Ti SUPER (Marketing Edition)',
+      '00:1f.2 SATA controller: NVMe pretending to be SATA for legacy BIOS vibes',
+      '03:00.0 Ethernet controller: Fiber to the Coffee Machine',
+      '04:00.0 Audio device: PulseAudio loopback of impostor syndrome',
+      '06:00.0 Co-processor: TPM 2.0 storing only good git commit messages'
+    ],
+    tabRecommend: true
+  }),
+
+  'nvidia-smi': () => ({
+    output: [
+      '+-----------------------------------------------------------------------------------------+',
+      '| NVIDIA-SMI 555.42                 Driver Version: 555.42         CUDA Version: 12.5     |',
+      '|-----------------------------------------+------------------------+----------------------+',
+      '| GPU  Name                  Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC     |',
+      '| Fan  Temp  Perf          Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M.   |',
+      '|=========================================+========================+======================|',
+      '|   0  TensorCore Portfolio GPU    On    | 00000000:03:00.0  On  |                  N/A |',
+      '| 42%   38C    P2             73W / 350W |  14231MiB / 16384MiB |      0%      Default |',
+      '|-----------------------------------------+------------------------+----------------------+',
+      '|  Processes:                                                                              |',
+      '|  python3  .../embedding_server.py                      12034MiB |  “one core because GIL” |',
+      '+-----------------------------------------------------------------------------------------+'
+    ],
+    tabRecommend: true
+  }),
+
+  id: () => ({
+    output: [
+      'uid=1000(amisha) gid=1000(developers) groups=1000(developers),27(sudo),994(docker),1337(ml-wizards)'
+    ]
+  }),
+
+  w: () => ({
+    output: [
+      ' 14:32:01 up 428 days,  3:14,  1 user,  load average: 0.41, 0.19, 0.08',
+      'USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT',
+      'amisha   pts/0    127.0.0.1        14:31    0.00s  0.12s  0.05s -bash',
+      'amisha   pts/1    ::1              14:31    0.00s  0.00s  0.00s sshd: amisha [priv]',
+      '',
+      '// second line is your browser pretending to be ssh. meta, not security.'
+    ],
+    tabRecommend: true
+  }),
+
+  rig: () => ({
+    output: rigIdentity(),
+    tabRecommend: true
+  }),
+
+  hexdump: () => ({
+    output: [
+      '00000000  48 45 4c 4c 4f 5f 57 4f  52 4c 44 0a  |HELLO_WORLD.|',
+      '0000000c  64 6f 6e 74 20 70 61 6e  69 63 0a     |dont panic.|',
+      '',
+      '// strings are UTF-8-ish; offsets are decimal-ish; vibes are hex.'
+    ],
+    tabRecommend: true
+  }),
+
+  history: () => ({
+    output: [
+      '  501  cd ~/projects && cat docai.txt',
+      '  502  python -c "import this"',
+      '  503  git commit -am "fix: off-by-one in universe"',
+      '  504  docker compose up -d --build 2>&1 | tee build.log',
+      '  505  curl -s https://api.github.com/zen',
+      '  506  export CUDA_VISIBLE_DEVICES=""  # courage mode',
+      '  507  man strace   # reading for pleasure',
+      '  508  sudo hire-amisha',
+      '  509  neofetch',
+      '  510  history'
+    ],
+    tabRecommend: true
+  }),
+
+  'sysctl ai': () => ({
+    output: [
+      'ai.overthinking = 1',
+      'ai.context_window = “bigger than my calendar”',
+      'ai.temperature = 0.7   // metaphorical and literal',
+      '',
+      'sysctl: use /proc/sys/ai/* at own risk (not a real sysctl namespace).'
+    ],
+    tabRecommend: true
+  }),
+
+  'man portfolio': () => ({
+    output: [
+      'PORTFOLIO(1)                   Ammy Manual                  PORTFOLIO(1)',
+      '',
+      'NAME',
+      '       portfolio — interactive résumé disguised as a login shell',
+      '',
+      'SYNOPSIS',
+      '       portfolio [OPTION]...  # there are no real options. this is the web.',
+      '',
+      'DESCRIPTION',
+      '       A React terminal that runs entirely client-side. Commands are',
+      '       JavaScript handlers, not fork(2). Still: typing feels powerful.',
+      '',
+      'FILES',
+      '       ~/skills, ~/projects, ~/experience, … — explore with cd and cat.',
+      '',
+      'BUGS',
+      '       Cannot actually chmod your impostor syndrome.',
+      '',
+      'SEE ALSO',
+      '       neofetch(1), cowsay(6), real jobs(1), sleep(1)'
+    ],
+    tabRecommend: true
+  }),
+
   neofetch: () => ({
     output: [
-      "                   -`                    amisha@portfolio",
-      "                  .o+`                   -----------------",
-      "                 `ooo/                   OS: Portfolio OS",
-      "                `+oooo:                  Host: Developer Machine",
-      "               `+oooooo:                 Kernel: Skills-5.0",
-      "               -+oooooo+:                Uptime: 2+ years coding",
-      "             `/:-:++oooo+:               Packages: 50+ projects",
-      "            `/++++/+++++++:              Shell: bash",
-      "           `/++++++++++++++:             Resolution: Problem Solver",
-      "          `/+++ooooooooo+++/             DE: VS Code",
-      "         ./ooosssso++osssssso+`          WM: Git",
-      "        .oossssso-    `/ossssss+`        Theme: Dark Mode",
-      "       -osssssso.      :ssssssso.        Icons: Lucide React",
-      "      :osssssss/        osssso+++.       Terminal: Custom React",
-      "     /ossssssss/        +ssssooo/-       CPU: Coffee-powered",
-      "   `/ossssso+/:-        -:/+osssso+-     Memory: Unlimited creativity",
+      "                   -`                    amisha@tensor-core",
+      "                  .o+`                   -------------------",
+      "                 `ooo/                   OS: GenAI workstation",
+      "                `+oooo:                  Host: NVMe + caffeine",
+      "               `+oooooo:                 Kernel: attention-5.0",
+      "               -+oooooo+:                Shell: bash  (inference_ready)",
+      "             `/:-:++oooo+:               Role: Generative AI Engineer",
+      "            `/++++/+++++++:              Stack: Python · LangChain · RAG",
+      "           `/++++++++++++++:             UI: Next.js / Streamlit",
+      "          `/+++ooooooooo+++/             Vector: FAISS-class retrieval",
+      "         ./ooosssso++osssssso+`          DE: VS Code + notebooks",
+      "        .oossssso-    `/ossssss+`        Theme: midnight cyan / violet",
+      "       -osssssso.      :ssssssso.        Terminal: this React TTY",
+      "      :osssssss/        osssso+++.       GPU: [REDACTED] ;)",
+      "     /ossssssss/        +ssssooo/-       Jobs: Capgemini · Infosys",
+      "   `/ossssso+/:-        -:/+osssso+-     Papers: Springer 2024",
       "  `+sso+:-`                 `.-/+oso:    ",
       " `++:.                           `-/+/   ",
       " .`                                 `/   "
@@ -502,38 +782,25 @@ const commandRegistry = {
 
   'cd projects': () => ({
     output: [
-      "✨ Featured Projects",
+      "Featured projects (résumé + lab)",
       "═══════════════════════════════════════════════════════════════════════════════",
       "",
-      "🤖 DocAI - AI-Powered PDF Q&A System",
-      "├── Tech     : Streamlit, Cohere API, Python, PyPDF2, dotenv",
-      "├── Features : Document Q&A, 95% accuracy, dark mode UI",
-      "├── Impact   : 80% faster document analysis, 100+ page support",
-      "└── Demo     : https://ammy-docai.streamlit.app/",
+      "DocAI — LLM document Q&A (100+ page PDFs, semantic chunking, ~92% accuracy)",
+      "├── Stack: Streamlit, LangChain, Azure OpenAI, Python",
+      "└── Demo: https://ammy-docai.streamlit.app/",
       "",
-      "🔍 QueryGenie - Natural Language to SQL",
-      "├── Tech     : Streamlit, Cohere API, SQLite, Pandas, SQLParse",
-      "├── Features : NL query processing, 95% accuracy, 50+ DB support",
-      "├── Impact   : 90% reduction in SQL learning time, 1000+ queries processed",
-      "└── Demo     : https://ammy-querygenie.streamlit.app/",
+      "QueryGenie — NL → SQL with schema-aware prompts (~95% syntactic SQL accuracy)",
+      "├── Stack: Streamlit, SQLite, Pandas, LLM APIs",
+      "└── Demo: https://ammy-querygenie.streamlit.app/",
       "",
-      "🛡️ PortPulse - AI-Powered TCP Port Scanner",
-      "├── Tech     : Streamlit, Scikit-learn, Python, Plotly, Censys API",
-      "├── Features : TCP scanning, 99% accuracy, 1000+ ports/minute",
-      "├── Impact   : 85% faster vulnerability detection, 500+ hosts scanned",
-      "└── Demo     : https://ammy-portpulse.streamlit.app/",
+      "Clauzetta — contract analytics (LLM + RAG + FAISS hybrid retrieval)",
+      "└── Details: cat clauzetta.txt",
       "",
-      "💬 Interactive NLP Chatbot",
-      "├── Tech     : Python, NLP libraries, Machine Learning",
-      "├── Features : Context-aware responses, sentiment analysis",
-      "└── Impact   : 40% improvement in user engagement",
-      "🎯 Commands:",
-      "-  'cat docai.txt' - Detailed DocAI project info",
-      "-  'cat querygenie.txt' - Detailed QueryGenie project info", 
-      "-  'cat portpulse.txt' - Detailed PortPulse project info",
-      "-  'cat chatbot.txt' - Detailed Chatbot project info",
-      "-  'open github' - View all projects on GitHub",
-      "🌟 Explore more projects: https://github.com/ammyCodex"
+      "PortPulse — AI-assisted TCP port scanner / risk visualization (Streamlit lab)",
+      "└── Demo: https://ammy-portpulse.streamlit.app/",
+      "",
+      "Deep dives: cat docai.txt | cat querygenie.txt | cat clauzetta.txt | cat portpulse.txt",
+      "More repos: open github"
     ],
     newPath: '~/projects',
     tabRecommend: true
@@ -541,29 +808,24 @@ const commandRegistry = {
 
   'cd experience': () => ({
     output: [
-      "💼 Professional Experience",
-      "========",
+      "Professional experience",
+      "(synced to public/ammy-resume.pdf)",
+      "=======================",
       "",
-      "🏢 Infosys Limited",
-      "Role: Specialist Programmer",
-      "Duration: November 2024 – Present",
-      "├── Built ML model for return prediction (87% accuracy)",
-      "├── Designed LLM-based HR automation tool",
-      "├── Developed real-time ticketing system",
-      "└── Collaborated with cross-functional teams",
+      "Capgemini — Bellevue, WA",
+      "Associate Data Scientist · Mar 2026 – Present",
+      "├── AI usage analytics across 2,800+ users (adoption, cost, productivity)",
+      "├── Next.js / TypeScript dashboards for license + usage visibility (~40% lift)",
+      "└── LLM assistant for role-aware insights (~30% less manual analysis)",
       "",
-      "🏢 Ratna Sagar Pvt Ltd",
-      "Role: Trainee Developer",
-      "Duration: June 2024 – November 2024",
-      "├── Developed NLP-powered chatbot",
-      "├── Digitized educational content into LMS",
-      "├── Enhanced user engagement through interactive features",
-      "└── Improved system performance by 30%",
+      "Infosys",
+      "Specialist Programmer · Nov 2024 – Feb 2026",
+      "├── Contract intelligence: RAG + embeddings; ~35% less manual legal review",
+      "├── Flask REST APIs for inference + ticket automation (~30% throughput gain)",
+      "├── Multi-agent workforce placement across 100+ roles (~70% bench reduction)",
+      "└── Prompt + vector retrieval tuning for enterprise document Q&A",
       "",
-      "Key Achievements:",
-      "-  Published research paper in Springer",
-      "-  Led team of 3 developers in chatbot project",
-      "-  Mentored 5+ junior developers"
+      "Files: cat capgemini.txt   cat infosys.txt"
     ],
     newPath: '~/experience',
     tabRecommend: true
@@ -571,26 +833,21 @@ const commandRegistry = {
 
   'cd education': () => ({
     output: [
-      "🎓 Educational Background",
+      "Educational background",
       "=======",
       "",
-      "🏫 Master of Science (M.Sc.) in Computer Science",
-      "   University: Sharda University",
-      "   Duration: 2022 – 2024",
-      "   ├── Specialization: Software Development & AI",
+      "Master of Computer Science — Sharda University",
+      "   Duration: Aug 2022 – Jul 2024",
       "   ├── CGPA: 9.075 / 10",
-      "   ├── Key Courses: Machine Learning, Data Structures, Software Engineering, AI/ML, NLP, LLMs, RAG, Prompt Engineering, LangChain, Docker, FastAPI, Git/GitHub, Linux, REST APIs, Cloud Platforms (AWS/GCP)",
+      "   ├── Focus: software engineering, AI/ML, security-oriented thesis work",
       "   └── Thesis: Optimization of Network Mapping for Intrusion Detection",
       "",
-      "🏫 Bachelor of Science (B.Sc.) in Computer Science",
-      "   University: DAV University",
-      "   Duration: 2019 – 2022",
-      "   ├── Major: Computer Science",
+      "Bachelor of Computer Science — DAV University",
+      "   Duration: Aug 2019 – Jul 2022",
       "   ├── CGPA: 7.4 / 10",
-      "   ├── Key Courses: Programming, Database Systems, Web Development",
-      "   └── Project: E-commerce Web Application",
+      "   └── Capstone: E-commerce web application",
       "",
-      "📚 Certifications:",
+      "Certifications (selected):",
       "-  AWS Academy Cloud Foundations",
       "-  Introduction to Generative AI – Google Cloud",
       "-  Generative AI with LLMs – DeepLearning.AI",
@@ -598,7 +855,11 @@ const commandRegistry = {
       "-  Building Systems with the ChatGPT API – DeepLearning.AI",
       "-  Prompt Engineering for Developers – DeepLearning.AI",
       "-  Python (Basic) – HackerRank",
-      "-  SQL (Basic) – HackerRank"
+      "-  SQL (Basic) – HackerRank",
+      "",
+      "Hackathons & recognition:",
+      "-  Finalist — Smart India Hackathon",
+      "-  4th among 200+ teams — IBM HackOn (agentic AI, Watsonx Orchestrate)"
     ],
     newPath: '~/education',
     tabRecommend: true
@@ -606,29 +867,17 @@ const commandRegistry = {
 
   'cd publications': () => ({
     output: [
-      "📄 Research Publications",
+      "Research publications",
       "═══════════════════════════════════════════════════════════════════════════════",
       "",
-      "📋 Published Paper:",
-      "├── Title     : 'Optimization of Network Mapping for Screening",
-      "│              and Intrusion Sensing Devices'",
-      "├── Publisher : Springer",
-      "├── Date      : April 2024",
-      "└── DOI       : 10.1007/978-XXX-XXX-XXXX-X_XX",
+      "Springer chapter (Apr 2024):",
+      "'Optimization of Network Mapping for Screening and Intrusion Sensing Devices'",
       "",
-      "🔬 Research Focus:",
-      "├── Network Security & Intrusion Detection",
-      "├── Machine Learning Applications in Cybersecurity",
-      "└── Optimization Algorithms for Network Systems",
+      "Authors:",
+      "Haritima Atri, Amisha Sharma, Tushar Mehrotra, Sandeep Saxena",
       "",
-      "📊 Citation Metrics:",
-      "├── Citations        : 12+",
-      "├── h-index          : 1",
-      "└── Research Impact  : Network Security Community",
-      "",
-      "🎯 Current Research:",
-      "├── AI-driven Security Analytics",
-      "└── Automated Threat Detection Systems"
+      "Themes: network security, intrusion detection, ML for cyber systems",
+      "File: cat springer-2024.pdf (if mirrored locally) or see résumé PDF for citation."
     ],
     newPath: '~/publications',
     tabRecommend: true
@@ -654,35 +903,24 @@ const commandRegistry = {
 
   'cd about': () => ({
     output: [
-      "👨‍💻 About Amisha Sharma",
+      "About — Amisha Sharma",
       "=====",
       "",
-      "Hello! I'm Amisha, a passionate full-stack developer who loves",
-      "building intelligent systems that bridge the gap between complex",
-      "technology and real-world solutions.",
+      "Generative AI engineer shipping retrieval systems, LLM orchestration,",
+      "and the APIs/dashboards that make models safe to run in production.",
       "",
-      "🚀 What drives me:",
-      "   -  Creating tools that simplify complex workflows",
-      "   -  Exploring the intersection of AI and software engineering",
-      "   -  Building scalable systems that make a difference",
-      "   -  Contributing to open-source projects",
+      "What I optimize for:",
+      "   -  Measurable lift (latency, cost, manual time removed)",
+      "   -  Observable pipelines: evals, logging, human-in-the-loop where needed",
+      "   -  Clean interfaces for operators: Next.js dashboards, Streamlit labs",
       "",
-      "🎯 Current Focus:",
-      "   -  Generative AI applications",
-      "   -  Full-stack development with React & Python",
-      "   -  Machine Learning model deployment",
-      "   -  Network security research",
+      "Current focus:",
+      "   -  Usage & cost analytics for enterprise AI rollouts",
+      "   -  Contract / document intelligence (RAG + vector search)",
+      "   -  Multi-agent workflows for planning and allocation",
       "",
-      "💡 Philosophy:",
-      "   'Good code is like a good joke - it needs no explanation.'",
-      "   I believe in writing clean, maintainable code that solves",
-      "   real problems and creates value for users.",
-      "",
-      "🌟 When I'm not coding:",
-      "   -  Reading tech blogs and research papers",
-      "   -  Contributing to open-source projects",
-      "   -  Learning new technologies",
-      "   -  Mentoring aspiring developers"
+      "Offline:",
+      "   -  Papers, hackathons, mentoring, and low-level C/C++ when the problem demands it"
     ],
     newPath: '~/about',
     tabRecommend: true
@@ -723,10 +961,6 @@ const commandRegistry = {
     ],
     tabRecommend: true
   }),
-  'open resume': () => ({
-    output: ['You can view or download the resume here: ammy-resume.pdf'],
-    tabRecommend: true
-  }),
   'download resume': () => ({
     output: ['Downloading resume from /public/ammy-resume.pdf'],
     tabRecommend: true
@@ -745,11 +979,8 @@ const commandRegistry = {
       "⭐ Stars: 50+",
       "🔄 Contributions: Active",
       "",
-      "🎯 Featured Repositories:",
-      "-  DocAI - AI-Powered PDF Q&A System",
-      "-  QueryGenie - Natural Language to SQL",
-      "-  PortPulse - Real-time Port Scanner",
-      "-  Interactive-Chatbot - NLP Chatbot",
+      "🎯 Featured repositories:",
+      "-  DocAI, QueryGenie, Clauzetta, PortPulse, Interactive-Chatbot",
       "",
       "🔗 Direct Link: https://github.com/ammyCodex",
       "Opening in new tab..."
@@ -760,35 +991,16 @@ const commandRegistry = {
 
   'open resume': () => ({
     output: [
-      '┌───────────────────────────────────────────────────────────────┐',
-      '│  1  Amisha Sharma                                            │',
-      '│  2  Full Stack Developer | AI/ML Engineer                    │',
-      '│  3                                                           │',
-      '│  4  Email: connect.amisha.usa@gmail.com                      │',
-      '│  5  LinkedIn: linkedin.com/in/ammycodex                      │',
-      '│  6  GitHub: github.com/ammycodex                             │',
-      '│  7                                                           │',
-      '│  8  Skills:                                                  │',
-      '│  9    - Python, JavaScript, React, C/C++, SQL                │',
-      '│ 10    - Machine Learning, AI, NLP                            │',
-      '│ 11    - Full Stack Development, REST APIs                    │',
-      '│ 12    - Docker, Git, Linux                                   │',
-      '│ 13                                                           │',
-      '│ 14  Experience:                                              │',
-      '│ 15    - Specialist Programmer, Infosys (2024-Present)        │',
-      '│ 16    - Trainee Developer, Ratna Sagar (2024)                │',
-      '│ 17                                                           │',
-      '│ 18  Education:                                               │',
-      '│ 19    - MSc(Comp science), Sharda University (2022-2024)     │',
-      '│ 20    - BSc(Comp science), DAV University (2019-2022)        │',
-      '│ 21                                                           │',
-      '│ 22  Achievements:                                            │',
-      '│ 23    - Published research in Springer                       │',
-      '│ 24    - 87% accuracy ML model for return prediction          │',
-      '│ 25    - Led development of AI-powered tools                  │',
-      '└──────────────────────────────────────────────────────────────┘',
-      ':q to quit'
+      'Opening résumé PDF (public/ammy-resume.pdf) in a new browser tab…',
+      '',
+      'Snapshot:',
+      '• Generative AI Engineer — LLMs, RAG, vector search, production APIs',
+      '• Capgemini (Associate Data Scientist) · Infosys (Specialist Programmer)',
+      '• DocAI · QueryGenie · Clauzetta (+ Streamlit labs such as PortPulse)',
+      '',
+      'Tip: sudo hire-amisha — force-download the same file.'
     ],
+    openUrl: '/ammy-resume.pdf',
     tabRecommend: true
   }),
 
@@ -891,6 +1103,42 @@ export const executeCommand = (input, currentPath) => {
     return commandRegistry['cat'](currentPath, args);
   }
 
+  if (command === 'cowsay') {
+    const msg = args.join(' ').trim();
+    return { output: formatCowsay(msg || 'moo — try: cowsay I love logits'), tabRecommend: true };
+  }
+
+  if (command === 'ping') {
+    const rest = args.join(' ');
+    const target = rest.replace(/^-c\s+\d+\s+/i, '').trim() || '127.0.0.1';
+    return {
+      output: [
+        `PING ${target} (${target}) 56(84) bytes of data.`,
+        `64 bytes from ${target}: icmp_seq=1 ttl=64 time=0.042 ms`,
+        '',
+        '--- ping statistics ---',
+        '1 packets transmitted, 1 received, 0% packet loss, time 0ms',
+        'rtt min/avg/max/mdev = 0.042/0.042/0.042/0.000 ms',
+        '',
+        '// localhost always answers. unlike some production APIs.'
+      ],
+      tabRecommend: true
+    };
+  }
+
+  if (command === 'alias') {
+    return {
+      output: [
+        'alias please=git commit -m "please"',
+        'alias coffee=sudo systemctl start caffeine',
+        'alias ship-it="pytest -q && git push"',
+        'alias tensorcore=ssh amisha@tensor-core',
+        'alias reality=exit  # not recommended'
+      ],
+      tabRecommend: true
+    };
+  }
+
   return {
     output: [
       `Command '${input}' not found. `,
@@ -903,5 +1151,7 @@ export const getAvailableCommands = () => [
   'help', 'ls', 'cd skills', 'cd projects', 'cd experience', 'cd education', 'cd publications', 'cd about', 'cd ..', 'pwd',
   'whoami', 'date', 'clear',
   'sudo hire-amisha', 'sudo become-amisha', 'ammy', 'fortune', 'neofetch', 'open resume', 'open github', 'sleep 1', 'sleep 2', 'sleep 3', 'joke',
-  'sudo make-me-laugh', 'sudo mentor', 'sudo matrix-rain', 'sudo play-snake'
+  'sudo make-me-laugh', 'sudo mentor', 'sudo matrix-rain', 'sudo play-snake',
+  'uname', 'uname -a', 'uptime', 'df', 'df -h', 'free', 'free -h', 'env', 'dmesg', 'htop', 'lspci', 'nvidia-smi',
+  'id', 'w', 'rig', 'hexdump', 'history', 'sysctl ai', 'man portfolio', 'cowsay hello world', 'ping -c 1 127.0.0.1', 'alias'
 ];

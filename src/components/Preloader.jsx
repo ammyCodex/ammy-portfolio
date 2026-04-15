@@ -1,13 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react'
 
 const bootLines = [
-  'Booting up Ammy Terminal Portfolio...\n',
-  '[ OK ] Initializing system modules',
-  '[ OK ] Loading AI Developer profile',
-  '[ OK ] Mounting projects and skills',
-  '[ OK ] Starting terminal interface',
+  'Booting tensor-core portfolio shell...\n',
+  '[ OK ] Initializing neural stack modules',
+  '[ OK ] Verifying checksum of good intentions… pass',
+  '[ OK ] Loading Generative AI engineer profile',
+  '[ OK ] Mounting RAG workspaces + project trees',
+  '[ OK ] rng-seed from /dev/urandom (browser polyfill)',
+  '[ OK ] Applying iptables: DROP impostor-packets',
+  '[ OK ] Handing off to interactive TTY',
   '',
-  'Welcome, Ammy!'
+  'Welcome, Ammy.'
 ]
 
 function useTypewriter(lines, delay = 32, lineDelay = 350) {
@@ -182,8 +185,8 @@ export default function Preloader() {
       left: 0,
       width: '100vw',
       height: '100vh',
-      background: '#0A0A0A',
-      color: '#FFF9E5',
+      background: '#030712',
+      color: '#e2e8f0',
       zIndex: 9999,
       display: 'flex',
       alignItems: 'center',
@@ -209,12 +212,12 @@ export default function Preloader() {
           width: isMobile ? '95vw' : undefined,
           maxWidth: isMobile ? '98vw' : '90vw',
           minHeight: isMobile ? 220 : 320, // Ensures stable height
-          border: '1.5px solid #880808',
+          border: '1.5px solid rgba(34, 211, 238, 0.45)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           overflow: 'hidden',
-          background: 'rgba(10,10,10,0.55)',
+          background: 'rgba(7, 11, 20, 0.72)',
           boxShadow: '0 4px 32px #0008',
           backdropFilter: 'blur(8px)',
           WebkitBackdropFilter: 'blur(8px)',
@@ -227,7 +230,7 @@ export default function Preloader() {
           style={{
             width: isMobile ? 40 : 64,
             height: isMobile ? 40 : 64,
-            background: '#880808',
+            background: 'linear-gradient(135deg, #155e75, #0e7490)',
             borderRadius: '50%',
             display: 'flex',
             alignItems: 'center',
@@ -248,7 +251,7 @@ export default function Preloader() {
               height: '70%',
               objectFit: 'contain',
               borderRadius: '50%',
-              background: '#880808',
+              background: 'transparent',
               display: 'block',
             }}
           />
@@ -259,7 +262,7 @@ export default function Preloader() {
             <div
               key={i}
               style={{
-                color: '#FFF9E5',
+                color: '#e2e8f0',
                 fontWeight: line.startsWith('Welcome') ? 700 : 400,
                 marginBottom: isMobile ? 1 : 2,
                 fontSize: line.startsWith('Welcome') ? (isMobile ? 16 : 22) : (isMobile ? 12 : 16),
@@ -272,24 +275,24 @@ export default function Preloader() {
               }}
             >
               {displayedLines[i] ? (
-                line.startsWith('[ OK ]') ? <span style={{ color: '#880808' }}>{displayedLines[i]}</span> : displayedLines[i]
+                line.startsWith('[ OK ]') ? <span style={{ color: '#22d3ee' }}>{displayedLines[i]}</span> : displayedLines[i]
               ) : ''}
             </div>
           ))}
           {/* Blinking cursor after last line */}
           {displayedLines.length === bootLines.length && (
-            <div className="terminal-cursor" style={{ display: 'inline-block', width: isMobile ? 8 : 10, height: isMobile ? 14 : 20, background: '#880808', marginLeft: 6, animation: 'blink 1s infinite' }}></div>
+            <div className="terminal-cursor" style={{ display: 'inline-block', width: isMobile ? 8 : 10, height: isMobile ? 14 : 20, background: '#22d3ee', boxShadow: '0 0 10px rgba(34,211,238,0.6)', marginLeft: 6, animation: 'blink 1s infinite' }}></div>
           )}
         </div>
         {/* Tilt not supported or permission denied message */}
         {isMobile && !tiltSupported && (
-          <div style={{ color: '#880808', fontSize: 12, marginTop: 10, textAlign: 'center', opacity: 0.8 }}>
+          <div style={{ color: '#67e8f9', fontSize: 12, marginTop: 10, textAlign: 'center', opacity: 0.85 }}>
             Tilt effect not available on your device/browser.<br />
             (Try updating your browser or enabling motion permissions.)
           </div>
         )}
         {isMobile && tiltPermissionDenied && (
-          <div style={{ color: '#880808', fontSize: 12, marginTop: 10, textAlign: 'center', opacity: 0.8 }}>
+          <div style={{ color: '#67e8f9', fontSize: 12, marginTop: 10, textAlign: 'center', opacity: 0.85 }}>
             Motion permission denied. Tilt effect disabled.<br />
             (You can enable it in your device settings.)
           </div>

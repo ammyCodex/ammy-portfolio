@@ -79,7 +79,7 @@ const TerminalOutput = ({ history, outputRef, currentPath }) => {
           {item.type === 'input' && (
             <div className="terminal-line">
               <span className="terminal-prompt">
-                root@amisha.io:{item.path}$
+                amisha@tensor-core:{item.path}$
               </span>
               <span className="terminal-text">{item.content}</span>
             </div>

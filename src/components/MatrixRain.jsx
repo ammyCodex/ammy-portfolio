@@ -72,7 +72,7 @@ const MatrixRain = ({ onClose }) => {
       const draw = () => {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
         ctx.fillRect(0, 0, canvas.width, canvas.height)
-        ctx.fillStyle = '#ff2222'
+        ctx.fillStyle = '#22d3ee'
         ctx.font = `${fontSize}px monospace`
         for (let i = 0; i < drops.length; i++) {
           const char = charArray[Math.floor(Math.random() * charArray.length)]
@@ -99,7 +99,7 @@ const MatrixRain = ({ onClose }) => {
         onTouchEnd={() => isMobile && setShowLoader(false)}
         style={{ touchAction: 'manipulation' }}
       >
-        <div className="matrix-loader text-red-400 text-lg font-bold text-center p-8">
+        <div className="matrix-loader text-cyan-400 text-lg font-bold text-center p-8">
           <div className="loading-spinner mb-4">
             <span className="spinner-char">⠋</span>
             <span className="spinner-char">⠙</span>
@@ -114,13 +114,13 @@ const MatrixRain = ({ onClose }) => {
           </div>
           <div className="mb-2">💻 MATRIX RAIN - INITIALIZING</div>
           {!isMobile && (
-            <div className="text-red-300 text-sm">
+            <div className="text-cyan-200/90 text-sm">
               Press <b>Enter</b> to start simulation<br/>
               Press <b>ESC</b> to exit
             </div>
           )}
           {isMobile && (
-            <div className="text-xs text-red-300 mt-2">Tap anywhere to start</div>
+            <div className="text-xs text-cyan-300/90 mt-2">Tap anywhere to start</div>
           )}
         </div>
       </div>
@@ -134,17 +134,17 @@ const MatrixRain = ({ onClose }) => {
       onTouchCancel={handleSimulationTouchEnd}
     >
       <div className="matrix-header">
-        <div className="text-red-400 text-lg font-bold mb-2">
+        <div className="text-cyan-400 text-lg font-bold mb-2">
           💻 MATRIX RAIN - SIMULATION ACTIVE
         </div>
         {!isMobile && (
-          <div className="text-red-300 text-sm">
+          <div className="text-cyan-200/90 text-sm">
             Press ESC to exit matrix mode
           </div>
         )}
         {/* Show mobile exit gesture message during simulation */}
         {isMobile && (
-          <div className="text-xs text-red-300 mt-2 text-center">Long-press anywhere to exit the simulation</div>
+          <div className="text-xs text-cyan-300/90 mt-2 text-center">Long-press anywhere to exit the simulation</div>
         )}
       </div>
       <canvas

@@ -23,13 +23,13 @@ const Terminal = () => {
     <div
       className="terminal-container-long flex flex-col flex-1 min-h-0"
       style={{
-        background: 'rgba(10,10,10,0.55)',
-        backdropFilter: 'blur(8px)',
-        WebkitBackdropFilter: 'blur(8px)',
-        boxShadow: '0 4px 32px #0008',
+        background: 'rgba(7, 11, 20, 0.72)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        boxShadow: '0 4px 48px rgba(0,0,0,0.45)',
       }}
     >
-      <TerminalHeader currentPath={currentPath} />
+      <TerminalHeader currentPath={currentPath} hostname="tensor-core" />
       
       <div className="terminal-body flex-1 min-h-0 overflow-auto">
         {activeGame === 'snake' ? (
@@ -51,7 +51,7 @@ const Terminal = () => {
             <div className="terminal-input-area">
               <form onSubmit={handleSubmit} className="terminal-line">
                 <span className="terminal-prompt">
-                  root@amisha.io:{currentPath}$
+                  amisha@tensor-core:{currentPath}$
                 </span>
                 <input
                   ref={inputRef}

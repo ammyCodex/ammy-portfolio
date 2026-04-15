@@ -7,10 +7,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        'terminal-bg': '#0A0A0A',
-        'terminal-accent': '#880808',
-        'terminal-text': '#FFF9E5',
-        'lanyard-bg': '#1B3C53',
+        'terminal-bg': '#070b14',
+        'terminal-panel': '#0c1222',
+        'terminal-accent': '#22d3ee',
+        'terminal-accent-dim': '#67e8f9',
+        'terminal-magenta': '#e879f9',
+        'terminal-text': '#e2e8f0',
+        'terminal-muted': '#94a3b8',
+        'lanyard-bg': '#0f172a',
       },
       fontFamily: {
         'mono': ['Fira Code', 'JetBrains Mono', 'Monaco', 'Consolas', 'monospace'],
